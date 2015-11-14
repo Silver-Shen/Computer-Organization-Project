@@ -34,10 +34,10 @@ entity id_ex is
            ex_operand2: in std_logic_vector(15 downto 0);
            ex_wreg_addr : in std_logic_vector(2 downto 0);
            ex_wreg_sel  : in std_logic;
-           ex_wreg_en   : in std_logic;
+           ex_wreg_en   : in std_logic);
 end id_ex;
 
-architecture Behavioral of if_ex is    
+architecture Behavioral of id_ex is    
 begin
     process (clk, rst)
     begin
