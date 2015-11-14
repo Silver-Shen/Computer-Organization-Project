@@ -19,8 +19,8 @@ entity rom is
 end rom;
 
 architecture Behavioral of rom is
-    type array_type is array(0 to 15) of std_logic_vector(15 downto 0); 
-    constant stored_inst : array_type := (x"0000",x"0001",x"0002",x"0003",
+    type rom_array is array(0 to 15) of std_logic_vector(15 downto 0); 
+    constant stored_inst : rom_array  := (x"0000",x"0001",x"0002",x"0003",
                                           x"0004",x"0005",x"0006",x"0007",
                                           x"0008",x"0009",x"000a",x"000b",
                                           x"000c",x"000d",x"000e",x"000f");
