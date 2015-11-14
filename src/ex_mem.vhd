@@ -25,10 +25,10 @@ entity ex_mem is
            ex_wreg_sel  : in std_logic;
            ex_wreg_en   : in std_logic;
            --传入访存阶段的信号
-           mem_wreg_data : in std_logic_vector(15 downto 0);         
-           mem_wreg_addr : in std_logic_vector(2 downto 0);
-           mem_wreg_sel  : in std_logic;
-           mem_wreg_en   : in std_logic);
+           mem_wreg_data : out std_logic_vector(15 downto 0);         
+           mem_wreg_addr : out std_logic_vector(2 downto 0);
+           mem_wreg_sel  : out std_logic;
+           mem_wreg_en   : out std_logic);
 end ex_mem;
 
 architecture Behavioral of ex_mem is    
