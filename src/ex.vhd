@@ -23,30 +23,35 @@ entity ex is
            alusel  : in std_logic_vector(2 downto 0);
            operand1: in std_logic_vector(15 downto 0);
            operand2: in std_logic_vector(15 downto 0);
-           wreg_addr : in std_logic_vector(2 downto 0);
-           wreg_sel  : in std_logic;
+           wreg_addr : in std_logic_vector(2 downto 0);          
            wreg_en   : in std_logic;
+           wsreg_addr : in std_logic_vector(1 downto 0);          
+           wsreg_en   : in std_logic;
            --传入下一阶段的信号           
            wreg_data_out : out std_logic_vector(15 downto 0);
-           wreg_addr_out : out std_logic_vector(2 downto 0);
-           wreg_sel_out  : out std_logic;
-           wreg_en_out   : out std_logic);
+           wreg_addr_out : out std_logic_vector(2 downto 0);           
+           wreg_en_out   : out std_logic;
+           wsreg_data_out : out std_logic_vector(15 downto 0);
+           wsreg_addr_out : out std_logic_vector(1 downto 0);           
+           wsreg_en_out   : out std_logic);
 end ex;
 
 architecture Behavioral of ex is    
     variable temp_data : std_logic_vector(15 downto 0) := x"0000";
 begin
     Pass_Write_Back:  --写回的信号和地址不需要修改，直接传给下一阶段
-    process (rst, wreg_en, wreg_sel, wreg_addr)
+    process (rst, wreg_en, wreg_addr, wsreg_en, wsreg_addr)
     begin
         if (rst = '0') then
-            wreg_en_out <= '1';
-            wreg_sel_out <= '0';
+            wreg_en_out <= '1';            
             wreg_addr_out <= "000";
+            wsreg_en_out <= '1';            
+            wsreg_addr_out <= "00";
         else 
-            wreg_en_out <= wreg_en;
-            wreg_sel_out <= wreg_sel;
+            wreg_en_out <= wreg_en;           
             wreg_addr_out <= wreg_addr;
+            wsreg_en_out <= wsreg_en;           
+            wsreg_addr_out <= wsreg_addr;
         end if;
     end process;
 
@@ -55,18 +60,23 @@ begin
     begin
         if (rst = '0' or aluop = "00001") then
             wreg_data_out <= x"0000";
+            wsreg_data_out <= x"0000";
         else
             case aluop is
                 when "11100"|01111|01001|01000|01101 =>   --addu|move|addiu|addiu3|li
                     wreg_data_out <= operand1 + operand2;
+                    wsreg_data_out <= x"0000";
                 when "01110" =>     --cmpi
                     temp_data := operand1 - operand2;
+                    wreg_data_out <= x"0000";
                     if (temp_data = x"0000") then
-                        wreg_data_out(0) <= '0';
+                        wsreg_data_out(0) <= '0';
                     else
-                        wreg_data_out(0) <= '1';
+                        wsreg_data_out(0) <= '1';
                     end if;                    
-                when others => wreg_data_out <= x"0000";
+                when others => 
+                    wreg_data_out <= x"0000";
+                    wsreg_data_out <= x"0000";
             end case;
         end if;         
     end process;

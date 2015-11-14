@@ -21,14 +21,18 @@ entity ex_mem is
            rst : in  std_logic;
            --来自执行阶段传来的信号  
            ex_wreg_data : in std_logic_vector(15 downto 0);         
-           ex_wreg_addr : in std_logic_vector(2 downto 0);
-           ex_wreg_sel  : in std_logic;
+           ex_wreg_addr : in std_logic_vector(2 downto 0);           
            ex_wreg_en   : in std_logic;
+           ex_wsreg_data: in std_logic_vector(15 downto 0);         
+           ex_wsreg_addr: in std_logic_vector(1 downto 0);           
+           ex_wsreg_en  : in std_logic;
            --传入访存阶段的信号
            mem_wreg_data : out std_logic_vector(15 downto 0);         
-           mem_wreg_addr : out std_logic_vector(2 downto 0);
-           mem_wreg_sel  : out std_logic;
-           mem_wreg_en   : out std_logic);
+           mem_wreg_addr : out std_logic_vector(2 downto 0);          
+           mem_wreg_en   : out std_logic;
+           mem_wsreg_data: out std_logic_vector(15 downto 0);         
+           mem_wsreg_addr: out std_logic_vector(1 downto 0);           
+           mem_wsreg_en  : out std_logic);
 end ex_mem;
 
 architecture Behavioral of ex_mem is    
@@ -36,15 +40,19 @@ begin
     process (clk, rst)
     begin
         if (rst = '0') then           
-            mem_wreg_en <= '1';
-            mem_wreg_sel <= '0';
+            mem_wreg_en <= '1';            
             mem_wreg_addr <= "000";
             mem_wreg_data <= x"0000";
+            mem_wsreg_en <= '1';            
+            mem_wsreg_addr <= "00";
+            mem_wsreg_data <= x"0000";
         elsif (clk'event and clk = '1') then
-            mem_wreg_en <= ex_wreg_en;
-            mem_wreg_sel <= ex_wreg_sel;
+            mem_wreg_en <= ex_wreg_en;            
             mem_wreg_addr <= ex_wreg_addr;
             mem_wreg_data <= ex_wreg_data;
+            mem_wsreg_en <= ex_wsreg_en;            
+            mem_wsreg_addr <= ex_wsreg_addr;
+            mem_wsreg_data <= ex_wsreg_data;
         end if;         
     end process;
 end Behavioral;
