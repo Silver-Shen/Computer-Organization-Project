@@ -36,8 +36,8 @@ entity id is  --译码阶段
           sreg_addr : out std_logic_vector(1 downto 0);
           sreg_en   : out std_logic;
           --传给alu的运算信息
-          alu_op : out std_logic_vector(5 downto 0);
-          alu_sel: out std_logic_vector(3 downto 0);
+          alu_op : out std_logic_vector(4 downto 0);
+          alu_sel: out std_logic_vector(2 downto 0);
           --传给alu的两个操作数
           operand1  : out std_logic_vector(15 downto 0);
           operand2  : out std_logic_vector(15 downto 0);
@@ -76,7 +76,7 @@ begin
             sreg_addr <= "00";
             operand1 <= x"0000";
             operand2 <= x"0000";
-            wrge_en <= '1';
+            wreg_en <= '1';
             wreg_sel <= '0';
             wreg_addr <= "000";
         else 
@@ -92,7 +92,7 @@ begin
                     sreg_addr <= "00";
                     operand1 <= reg1_data;
                     operand2 <= x"0000";
-                    wrge_en <= '0';
+                    wreg_en <= '0';
                     wreg_sel <= '0';  --表示写通用寄存器
                     wreg_addr <= regx;
                 when "01001" =>     --addiu
@@ -105,7 +105,7 @@ begin
                     sreg_addr <= "00";
                     operand1 <= reg1_data;
                     operand2 <= to_std_logic_vector(resize(signed(regy&inst_tail), 16));
-                    wrge_en <= '0';
+                    wreg_en <= '0';
                     wreg_sel <= '0';  
                     wreg_addr <= regx;
                 when "01000" =>     --addiu3
@@ -118,7 +118,7 @@ begin
                     sreg_addr <= "00";
                     operand1 <= reg1_data;
                     operand2 <= to_std_logic_vector(resize(signed(inst_tail(3 downto 0)), 16));
-                    wrge_en <= '0';
+                    wreg_en <= '0';
                     wreg_sel <= '0'; 
                     wreg_addr <= regy;
                 when "01110" =>     --cmpi
@@ -131,7 +131,7 @@ begin
                     sreg_addr <= "00";
                     operand1 <= reg1_data;
                     operand2 <= to_std_logic_vector(resize(signed(regy&inst_tail), 16));
-                    wrge_en <= '0';
+                    wreg_en <= '0';
                     wreg_sel <= '1';  --写特殊寄存器 
                     wreg_addr <= "000";  --T寄存器
                 when "01101" =>     --li
@@ -144,7 +144,7 @@ begin
                     sreg_addr <= "00";
                     operand1 <= x"0000";
                     operand2 <= x"00" & regy & inst_tail;
-                    wrge_en <= '0';
+                    wreg_en <= '0';
                     wreg_sel <= '0'; 
                     wreg_addr <= regx; 
                 when "11100" =>     --addu
@@ -157,7 +157,7 @@ begin
                     sreg_addr <= "00";
                     operand1 <= reg1_data;
                     operand2 <= reg2_data;
-                    wrge_en <= '0';
+                    wreg_en <= '0';
                     wreg_sel <= '0'; 
                     wreg_addr <= inst_tail(4 downto 2);
                 when others =>
@@ -171,7 +171,7 @@ begin
                     sreg_addr <= "00";
                     operand1 <= x"0000";
                     operand2 <= x"0000";
-                    wrge_en <= '1';
+                    wreg_en <= '1';
                     wreg_sel <= '0';
                     wreg_addr <= "000";
             end case;            
