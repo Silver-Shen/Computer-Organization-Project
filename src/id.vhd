@@ -16,35 +16,34 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity id is  --译码阶段
+entity id is  --instruction decode stage
     Port (rst : in  std_logic;
-          --来自IF/ID阶段寄存器传来的信号
+          --signal from if stage          
           pc  : in std_logic_vector(15 downto 0);
           inst: in std_logic_vector(15 downto 0);
-          --来自通用寄存器堆的读取结果
-          reg1_data : in std_logic_vector(15 downto 0);
+          --signal from general register file           
+		  reg1_data : in std_logic_vector(15 downto 0);
           reg2_data : in std_logic_vector(15 downto 0);
-          --来自特殊寄存器堆的读取结果
-          sreg_data : in std_logic_vector(15 downto 0);
-          --访问通用寄存器堆的读信号
+          --signal from special register file 
+		  sreg_data : in std_logic_vector(15 downto 0);
+          --signal for read general register          
           reg1_addr : out std_logic_vector(2 downto 0);
           reg1_en   : out std_logic;
           reg2_addr : out std_logic_vector(2 downto 0);
           reg2_en   : out std_logic;
-          --访问特殊寄存器堆的读信号
+          --signal for read special register    
           sreg_addr : out std_logic_vector(1 downto 0);
           sreg_en   : out std_logic;
-          --传给alu的运算信息
-          alu_op    : out std_logic_vector(4 downto 0);
-          alu_sel   : out std_logic_vector(2 downto 0);
-          --传给alu的两个操作数
+          --signal for ex stage          
+		  alu_op    : out std_logic_vector(4 downto 0);
+          alu_sel   : out std_logic_vector(2 downto 0);          
           operand1  : out std_logic_vector(15 downto 0);
           operand2  : out std_logic_vector(15 downto 0);
-          --传入下一阶段的写回寄存器信息
-          wreg_addr : out std_logic_vector(2 downto 0);  --通用寄存器          
-          wreg_en   : out std_logic;  --是否允许写入
-          wsreg_addr: out std_logic_vector(1 downto 0);  --特殊寄存器
-          wsreg_en  : out std_logic); 
+          --write back signal  
+          wreg_addr : out std_logic_vector(2 downto 0);
+          wreg_en   : out std_logic;
+          wsreg_addr: out std_logic_vector(1 downto 0);
+		  wsreg_en  : out std_logic); 
 end id;
 
 architecture Behavioral of id is    
@@ -53,7 +52,7 @@ architecture Behavioral of id is
     --signal imm : std_logic_vector(15 downto 0);
     --signal instValid : std_logic := '0';
 begin
-    Pre_Decode: --预处理阶段，先将指令分段
+    Pre_Decode:
     process (inst)
     begin
         inst_header <= inst(15 downto 11);
@@ -62,16 +61,16 @@ begin
         inst_tail <= inst(4 downto 0);
     end process;
 
-    Decode: --译码阶段
+    Decode:
     process (rst, inst_header, inst_tail, regx, regy, reg1_data, reg2_data, sreg_data)
     begin
-        if (rst = '0' or inst_header = "00001") then  --复位或者NOP指令，控制信号全部清空
-            alu_op <= "00001";
+        if (rst = '0' or inst_header = "00001") then
+				alu_op <= "00001";
             alu_sel <= "000";
             reg1_en <= '1';
             reg2_en <= '1';
-            reg1_addr <= "00000";
-            reg2_addr <= "00000";
+            reg1_addr <= "000";
+            reg2_addr <= "000";
             sreg_en <= '1';
             sreg_addr <= "00";
             operand1 <= x"0000";
@@ -88,7 +87,7 @@ begin
                     reg1_en <= '0';
                     reg2_en <= '1';
                     reg1_addr <= regy;
-                    reg2_addr <= "00000";
+                    reg2_addr <= "000";
                     sreg_en <= '1';
                     sreg_addr <= "00";
                     operand1 <= reg1_data;
@@ -102,11 +101,17 @@ begin
                     reg1_en <= '0';
                     reg2_en <= '1';
                     reg1_addr <= regx;
-                    reg2_addr <= "00000";
+                    reg2_addr <= "000";
                     sreg_en <= '1';
                     sreg_addr <= "00";
                     operand1 <= reg1_data;
-                    operand2 <= to_std_logic_vector(resize(signed(regy&inst_tail), 16));
+                    --operand2 <= std_logic_vector(resize(signed(regy&inst_tail), 16));
+				    if (regy(2) = '1') then
+						operand2(15 downto 8) <= x"11";
+				    else 
+						operand2(15 downto 8) <= x"00";
+				    end if;
+				    operand2(7 downto 0) <= regy & inst_tail;
                     wreg_en <= '0';                   
                     wreg_addr <= regx;
                     wsreg_en <= '1';           
@@ -116,12 +121,18 @@ begin
                     reg1_en <= '0';
                     reg2_en <= '1';
                     reg1_addr <= regx;
-                    reg2_addr <= "00000";
+                    reg2_addr <= "000";
                     sreg_en <= '1';
                     sreg_addr <= "00";
                     operand1 <= reg1_data;
-                    operand2 <= to_std_logic_vector(resize(signed(inst_tail(3 downto 0)), 16));
-                    wreg_en <= '0';                   
+                    --operand2 <= std_logic_vector(resize(signed(inst_tail(3 downto 0)), 16));
+				    if (inst_tail(3) = '1') then
+						operand2(15 downto 4) <= x"111";
+				    else 
+						operand2(15 downto 4) <= x"000";
+				    end if;
+				  operand2(3 downto 0) <= inst_tail(3 downto 0); 
+                    wreg_en <= '0';                   						  
                     wreg_addr <= regy;
                     wsreg_en <= '1';           
                     wsreg_addr <= "00";
@@ -130,21 +141,26 @@ begin
                     reg1_en <= '0';
                     reg2_en <= '1';
                     reg1_addr <= regx;
-                    reg2_addr <= "00000";
+                    reg2_addr <= "000";
                     sreg_en <= '1';
                     sreg_addr <= "00";
                     operand1 <= reg1_data;
-                    operand2 <= to_std_logic_vector(resize(signed(regy&inst_tail), 16));
+                    if (regy(2) = '1') then
+    					operand2(15 downto 8) <= x"11";
+    				else 
+    					operand2(15 downto 8) <= x"00";
+    				end if;
+    				operand2(7 downto 0) <= regy & inst_tail;
                     wreg_en <= '1';                    
                     wreg_addr <= "000";
                     wsreg_en <= '0';           
-                    wsreg_addr <= "00"; --T寄存器
-                when "01101" =>     --li
+                    wsreg_addr <= "00"; --T register
+					when "01101" =>     --li
                     alu_sel <= "000";
                     reg1_en <= '1';
                     reg2_en <= '1';
-                    reg1_addr <= "00000";
-                    reg2_addr <= "00000";
+                    reg1_addr <= "000";
+                    reg2_addr <= "000";
                     sreg_en <= '1';
                     sreg_addr <= "00";
                     operand1 <= x"0000";
@@ -172,8 +188,8 @@ begin
                     alu_sel <= "000";
                     reg1_en <= '1';
                     reg2_en <= '1';
-                    reg1_addr <= "00000";
-                    reg2_addr <= "00000";
+                    reg1_addr <= "000";
+                    reg2_addr <= "000";
                     sreg_en <= '1';
                     sreg_addr <= "00";
                     operand1 <= x"0000";

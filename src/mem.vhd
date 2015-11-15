@@ -18,14 +18,14 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity mem is
     Port ( rst : in  std_logic;
-           --来自EX/MEM阶段阶段寄存器传来的信号
+           --signal from ex/mem stage                    
            wreg_data : in std_logic_vector(15 downto 0);           
            wreg_addr : in std_logic_vector(2 downto 0);           
            wreg_en   : in std_logic;
            wsreg_data: in std_logic_vector(15 downto 0);         
            wsreg_addr: in std_logic_vector(1 downto 0);           
            wsreg_en  : in std_logic;
-           --传入下一阶段的信号           
+           --signal for mem/wb stage                    
            wreg_data_out : out std_logic_vector(15 downto 0);
            wreg_addr_out : out std_logic_vector(2 downto 0);          
            wreg_en_out   : out std_logic;

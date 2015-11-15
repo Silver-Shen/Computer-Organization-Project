@@ -19,14 +19,14 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 entity mem_wb is
     Port ( clk : in  std_logic;
            rst : in  std_logic;
-           --来自访存阶段传来的信号  
+           --signal from mem stage            
            mem_wreg_data : in std_logic_vector(15 downto 0);         
            mem_wreg_addr : in std_logic_vector(2 downto 0);          
            mem_wreg_en   : in std_logic;
            mem_wsreg_data : in std_logic_vector(15 downto 0);         
            mem_wsreg_addr : in std_logic_vector(1 downto 0);          
            mem_wsreg_en   : in std_logic;
-           --传入写回阶段的信号，需要注意的是回写阶段实际上是由寄存器堆完成，故输出信号直接与两个寄存器堆相连
+           --signal for wb stage, directly connect to register file            
            wb_wreg_data : out std_logic_vector(15 downto 0);         
            wb_wreg_addr : out std_logic_vector(2 downto 0);           
            wb_wreg_en   : out std_logic;

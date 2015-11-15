@@ -19,7 +19,7 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 entity id_ex is
     Port ( clk : in  std_logic;
            rst : in  std_logic;
-           --来自译码阶段传来的信号
+           --signal from id stage           
            id_aluop   : in std_logic_vector(4 downto 0);
            id_alusel  : in std_logic_vector(2 downto 0);
            id_operand1: in std_logic_vector(15 downto 0);
@@ -28,7 +28,7 @@ entity id_ex is
            id_wreg_en   : in std_logic;
            id_wsreg_addr : in std_logic_vector(1 downto 0);           
            id_wsreg_en   : in std_logic;
-           --传入执行阶段的信号
+           --signal for ex stage           
            ex_aluop   : out std_logic_vector(4 downto 0);
            ex_alusel  : out std_logic_vector(2 downto 0);
            ex_operand1: out std_logic_vector(15 downto 0);

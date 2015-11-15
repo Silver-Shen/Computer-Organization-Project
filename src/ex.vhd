@@ -18,7 +18,7 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity ex is
     Port ( rst : in  std_logic;
-           --来自ID/EX阶段阶段寄存器传来的信号
+           --signal from id stage           
            aluop   : in std_logic_vector(4 downto 0);
            alusel  : in std_logic_vector(2 downto 0);
            operand1: in std_logic_vector(15 downto 0);
@@ -27,7 +27,7 @@ entity ex is
            wreg_en   : in std_logic;
            wsreg_addr : in std_logic_vector(1 downto 0);          
            wsreg_en   : in std_logic;
-           --传入下一阶段的信号           
+           --signal for mem stage          
            wreg_data_out : out std_logic_vector(15 downto 0);
            wreg_addr_out : out std_logic_vector(2 downto 0);           
            wreg_en_out   : out std_logic;
@@ -39,7 +39,7 @@ end ex;
 architecture Behavioral of ex is    
     variable temp_data : std_logic_vector(15 downto 0) := x"0000";
 begin
-    Pass_Write_Back:  --写回的信号和地址不需要修改，直接传给下一阶段
+    Pass_Write_Back:
     process (rst, wreg_en, wreg_addr, wsreg_en, wsreg_addr)
     begin
         if (rst = '0') then
@@ -55,7 +55,7 @@ begin
         end if;
     end process;
 
-    ALU_OPERATION:   --根据操作码和选择码进行alu运算
+    ALU_OPERATION:  --make operation according to aluop&alusel
     process (rst, operand1, operand2, aluop, alusel)
     begin
         if (rst = '0' or aluop = "00001") then
@@ -63,7 +63,7 @@ begin
             wsreg_data_out <= x"0000";
         else
             case aluop is
-                when "11100"|01111|01001|01000|01101 =>   --addu|move|addiu|addiu3|li
+                when "11100"|"01111"|"01001"|"01000"|"01101" =>   --addu|move|addiu|addiu3|li
                     wreg_data_out <= operand1 + operand2;
                     wsreg_data_out <= x"0000";
                 when "01110" =>     --cmpi

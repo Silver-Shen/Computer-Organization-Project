@@ -19,24 +19,24 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 entity s_regfile is
     Port ( clk : in  std_logic;
            rst : in  std_logic;
-           --写入寄存器的信号，同步操作
+           --write_back signal           
            w_addr  : in std_logic_vector(1 downto 0);
            w_data  : in std_logic_vector(15 downto 0);
            w_en    : in std_logic;
-           --读取寄存器的信号，异步操作
+           --read_reg signal           
            reg_addr : in std_logic_vector(1 downto 0);
            reg_en : in std_logic;           
            reg_data : out std_logic_vector(15 downto 0));          
 end s_regfile;
 
 architecture Behavioral of s_regfile is
-    --特殊寄存器堆由四个分立的信号构成，按顺序从00编号到11
+    -- four special register, number from 00 to 11   
     signal T : std_logic;
     signal IH : std_logic_vector(15 downto 0);
     signal RA : std_logic_vector(15 downto 0);
     signal SP : std_logic_vector(15 downto 0);
 begin
-    Write_Back: --回写进程，与时钟信号同步
+    Write_Back:    
     process (clk, rst)
     begin       
         if (clk'event and clk = '1') then
@@ -56,7 +56,7 @@ begin
         end if;         
     end process;
 
-    Read_Reg1: --读寄存器进程，解决了ID和WB阶段的数据冲突问题，即相隔两条指令的RAW冲突
+    Read_Reg:    
     process(rst, reg_addr, reg_en, w_addr, w_en, w_data)
     begin
         if (rst = '0') then

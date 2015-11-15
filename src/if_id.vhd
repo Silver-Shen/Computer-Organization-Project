@@ -19,10 +19,10 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 entity if_id is
     Port ( clk : in  std_logic;
            rst : in  std_logic;
-           --来自取指阶段传来的信号
+           --signal from if stage           
            if_pc  : in std_logic_vector(15 downto 0);
            if_inst : in std_logic_vector(15 downto 0);
-           --传入译码阶段的信号
+           --signal for id stage           
            id_pc : out std_logic_vector(15 downto 0)
            id_inst : out std_logic_vector(15 downto 0));
 end if_id;

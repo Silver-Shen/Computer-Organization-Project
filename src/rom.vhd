@@ -30,10 +30,11 @@ architecture Behavioral of rom is
                                           x"000c",x"000d",x"000e",x"000f");
 begin
     process (en, addr)
+    begin
         if (en = '1') then
             inst <= x"0000";
         else
-            inst <= stored_inst[addr(3 downto 0)];
+            inst <= stored_inst(conv_integer(addr(3 downto 0)));
         end if;        
     end process;
 end Behavioral;
