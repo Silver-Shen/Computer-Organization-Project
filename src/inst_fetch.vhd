@@ -19,7 +19,7 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 entity inst_fetch is
     Port ( clk : in  std_logic;
            rst : in  std_logic;
-           inst : out std_logic_vector(15 downto 0);          
+           inst : out std_logic_vector(15 downto 0));          
 end inst_fetch;
 
 architecture Behavioral of inst_fetch is

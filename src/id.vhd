@@ -42,7 +42,7 @@ entity id is  --译码阶段
           operand2  : out std_logic_vector(15 downto 0);
           --传入下一阶段的写回寄存器信息
           wreg_addr : out std_logic_vector(2 downto 0);  --通用寄存器          
-          wrge_en   : out std_logic;  --是否允许写入
+          wreg_en   : out std_logic;  --是否允许写入
           wsreg_addr: out std_logic_vector(1 downto 0);  --特殊寄存器
           wsreg_en  : out std_logic); 
 end id;

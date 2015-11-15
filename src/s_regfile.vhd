@@ -26,7 +26,7 @@ entity s_regfile is
            --读取寄存器的信号，异步操作
            reg_addr : in std_logic_vector(1 downto 0);
            reg_en : in std_logic;           
-           reg_data : out std_logic_vector(15 downto 0);          
+           reg_data : out std_logic_vector(15 downto 0));          
 end s_regfile;
 
 architecture Behavioral of s_regfile is
