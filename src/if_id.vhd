@@ -23,7 +23,7 @@ entity if_id is
            if_pc  : in std_logic_vector(15 downto 0);
            if_inst : in std_logic_vector(15 downto 0);
            --signal for id stage           
-           id_pc : out std_logic_vector(15 downto 0)
+           id_pc : out std_logic_vector(15 downto 0);
            id_inst : out std_logic_vector(15 downto 0));
 end if_id;
 

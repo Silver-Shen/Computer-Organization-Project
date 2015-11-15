@@ -25,7 +25,7 @@ entity excited_cpu is
 end excited_cpu;
 
 architecture Behavioral of excited_cpu is
-    --pc模块
+    --pc module    
     component pc_reg
         Port (clk : in  std_logic;
               rst : in  std_logic;
@@ -35,16 +35,16 @@ architecture Behavioral of excited_cpu is
 
     signal pc : std_logic_vector(15 downto 0);    
 
-    --if/id阶段寄存器
+    --if/id stage register    
     component if_id 
         Port ( clk : in  std_logic;
                rst : in  std_logic;
-               --来自取指阶段传来的信号
+               --signal from if stage           
                if_pc  : in std_logic_vector(15 downto 0);
-               if_inst: in std_logic_vector(15 downto 0);
-               --传入译码阶段的信号
-               id_pc  : out std_logic_vector(15 downto 0)
-               id_inst: out std_logic_vector(15 downto 0));
+               if_inst : in std_logic_vector(15 downto 0);
+               --signal for id stage           
+               id_pc : out std_logic_vector(15 downto 0);
+               id_inst : out std_logic_vector(15 downto 0));
     end component;
 
     signal id_pc   : std_logic_vector(15 downto 0);
