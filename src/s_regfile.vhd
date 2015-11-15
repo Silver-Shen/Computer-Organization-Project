@@ -62,11 +62,15 @@ begin
         if (rst = '0') then
             reg_data <= x"0000";
         elsif (reg_addr = w_addr and reg_en = '0' and w_en = '0') then
-            reg_data <= w_data;
-        elsif (reg_en = '0') then
+				if (reg_addr = "00") then
+                reg_data <= "000000000000000" & w_data(0);
+            else
+                reg_data <= w_data;
+            end if;        
+		  elsif (reg_en = '0') then
             case reg_addr is
                 when "00" =>
-                  reg_data(0) <= T; 
+                  reg_data <= "000000000000000" & T; 
                 when "01" =>
                   reg_data <= IH;
                 when "10" =>
