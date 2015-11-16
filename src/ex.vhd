@@ -37,7 +37,7 @@ entity ex is
 end ex;
 
 architecture Behavioral of ex is    
-    variable temp_data : std_logic_vector(15 downto 0) := x"0000";
+    shared variable temp_data : std_logic_vector(15 downto 0) := x"0000";
 begin
     Pass_Write_Back:
     process (rst, wreg_en, wreg_addr, wsreg_en, wsreg_addr)

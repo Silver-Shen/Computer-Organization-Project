@@ -31,11 +31,12 @@ begin
         if (rst = '0') then
             stored_pc <= x"0000";
             en <= '1';
+				pc <= x"0000"; 
         elsif (clk'event and clk = '1') then
             stored_pc <= stored_pc + 1;
             en <= '0';
-        end if; 
-        pc <= stored_pc;    
+				pc <= stored_pc + 1; 
+        end if;    
     end process;
 end Behavioral;
 
