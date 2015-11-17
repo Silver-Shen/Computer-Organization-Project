@@ -44,7 +44,7 @@ begin
     process (clk, rst)
     begin
         if (rst = '0') then
-            ex_aluop <= "00001"
+            ex_aluop <= "00001";
             ex_alusel <= "000";            
             ex_operand1 <= x"0000";
             ex_operand2 <= x"0000";
