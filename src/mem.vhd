@@ -25,6 +25,15 @@ entity mem is
            wsreg_data: in std_logic_vector(15 downto 0);         
            wsreg_addr: in std_logic_vector(1 downto 0);           
            wsreg_en  : in std_logic;
+           mem_read_en    : in std_logic;
+           mem_read_addr  : in std_logic_vector(15 downto 0);
+           mem_write_en   : in std_logic;
+           mem_write_addr : in std_logic_vector(15 downto 0);
+           mem_write_data : in std_logic_vector(15 downto 0);
+           --signal from MMU
+           RamData : in std_logic_vector(15 downto 0);
+           --signal for MMU
+           
            --signal for mem/wb stage                    
            wreg_data_out : out std_logic_vector(15 downto 0);
            wreg_addr_out : out std_logic_vector(2 downto 0);          

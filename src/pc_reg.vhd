@@ -17,25 +17,35 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 --use UNISIM.VComponents.all;
 
 entity pc_reg is
-    Port ( clk : in  std_logic;
-           rst : in  std_logic;
-           pc  : out std_logic_vector(15 downto 0);
-           en  : out std_logic);
+    Port ( clk          : in std_logic;
+           rst          : in std_logic;
+           stall        : in std_logic;
+           branch       : in std_logic;
+           branch_addr  : in std_logic_vector(15 downto 0);
+           --signal for MMU
+           pc           : out std_logic_vector(15 downto 0);
+           en           : out std_logic);
 end pc_reg;
 
 architecture Behavioral of pc_reg is
     signal stored_pc : std_logic_vector(15 downto 0) := x"0000";
 begin
-    process (clk, rst)
+    process (clk, rst, stall, branch, branch_addr)
     begin
         if (rst = '0') then
             stored_pc <= x"0000";
             en <= '1';
 			pc <= x"0000"; 
         elsif (clk'event and clk = '1') then
-            stored_pc <= stored_pc + 1;
-            en <= '0';
-			pc <= stored_pc + 1; 
+            if (stall = '1' and branch = '0') then
+                stored_pc <= branch_addr;
+                en <= '0';
+			    pc <= branch_addr;
+            elsif (stall = '1' and branch = '1') then
+                stored_pc <= stored_pc + 1;
+                en <= '0';
+                pc <= stored_pc + 1;
+            end if; 
         end if;    
     end process;
 end Behavioral;
