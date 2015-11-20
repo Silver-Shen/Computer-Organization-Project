@@ -31,9 +31,7 @@ entity mem is
            mem_write_addr : in std_logic_vector(15 downto 0);
            mem_write_data : in std_logic_vector(15 downto 0);
            --signal from MMU
-           RamData : in std_logic_vector(15 downto 0);
-           --signal for MMU
-           
+           RamData : in std_logic_vector(15 downto 0);                      
            --signal for mem/wb stage                    
            wreg_data_out : out std_logic_vector(15 downto 0);
            wreg_addr_out : out std_logic_vector(2 downto 0);          
@@ -61,6 +59,9 @@ begin
             wsreg_en_out <= wsreg_en;            
             wsreg_addr_out <= wsreg_addr;
             wsreg_data_out <= wsreg_data;
+            if (mem_read_en = '0') then  -- if access to memory, change write back data           
+                wreg_data_out <= RamData;
+            end if;
         end if;         
     end process;
 end Behavioral;
