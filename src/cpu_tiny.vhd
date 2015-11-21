@@ -27,11 +27,11 @@ entity cpu_tiny is
                mem_wsreg_data: out std_logic_vector(15 downto 0);         
                mem_wsreg_addr: out std_logic_vector(1 downto 0);           
                mem_wsreg_en  : out std_logic;
-               mem_read_en_out   : out std_logic;
-               mem_read_addr_out : out std_logic_vector(15 downto 0);
-               mem_write_en_out  : out std_logic;
-               mem_write_addr_out: out std_logic_vector(15 downto 0);
-               mem_write_data_out: out std_logic_vector(15 downto 0));                 
+               mem_read_en : out std_logic;
+               mem_read_addr : out std_logic_vector(15 downto 0);
+               mem_write_en  : out std_logic;
+               mem_write_addr: out std_logic_vector(15 downto 0);
+               mem_write_data: out std_logic_vector(15 downto 0));                 
 end cpu_tiny;
 
 architecture Behavioral of cpu_tiny is
