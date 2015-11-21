@@ -55,7 +55,9 @@ entity mmu is
            wrn         : out std_logic);
 end mmu;
 
-architecture Behavioral of mmu is    
+architecture Behavioral of mmu is   
+    signal data1, data2 : std_logic_vector(15 downto 0);
+    signal mode: std_logic; 
 begin
     Prepare_Address_Data:
     process (mem_read_addr, mem_read_en, mem_write_en, mem_write_addr, inst_en, inst_addr)
@@ -71,10 +73,12 @@ begin
             if (mem_read_addr > x"7fff") then
                 Ram1Addr <= "00" & mem_read_addr;
                 Ram1Data <= "ZZZZZZZZZZZZZZZZ";
+                mode <= '0';
             else 
                 Ram2Addr <= "00" & mem_read_addr;
                 Ram2Data <= "ZZZZZZZZZZZZZZZZ";
                 stall_request <= '0';
+                mode <= '1';
             end if;
         elsif (mem_write_en = '0') then
             if (mem_write_addr > x"7fff") then
@@ -109,14 +113,14 @@ begin
             if (mem_read_en = '0' and mem_read_addr > x"7fff") then --read ram1 or series
                 if (mem_read_addr = x"BF01") then  --read series status
                     temp_data := tbre and tsre;
-                    data <= "00000000000000" & data_ready & temp_data;
+                    data1 <= "00000000000000" & data_ready & temp_data;
                 elsif (mem_read_addr = x"BF00") then --read series
                     rdn <= '0';
-                    data <= Ram1Data;
+                    data1 <= Ram1Data;
                 else  --read ram1
                     Ram1EN <= '0';
                     Ram1OE <= '0';
-                    data <= Ram1Data;
+                    data1 <= Ram1Data;
                 end if;
             elsif (mem_write_en ='0' and mem_write_addr > x"7fff") then --write ram1 or series
                 if (mem_write_addr = x"BF00") then --write series
@@ -152,7 +156,7 @@ begin
             if (mem_read_en = '0' and mem_read_addr <= x"7fff") then --read ram2                
                 Ram2EN <= '0';
                 Ram2OE <= '0';
-                data <= Ram2Data;                
+                data2 <= Ram2Data;                
             elsif (mem_write_en ='0' and mem_write_addr <= x"7fff") then --write ram2
                 Ram2EN <= '0';
                 Ram2WE <= '0';                
@@ -161,6 +165,15 @@ begin
                 Ram2OE <= '0'; 
                 inst <= Ram2Data;
             end if;            
+        end if;
+    end process;
+
+    process (data1, data2, mode)
+    begin
+        if (mode = '0') then
+            data <= data1;
+        else
+            data <= data2;
         end if;
     end process;
 end Behavioral;
