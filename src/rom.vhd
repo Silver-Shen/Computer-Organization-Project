@@ -24,10 +24,10 @@ end rom;
 
 architecture Behavioral of rom is
     type rom_array is array(0 to 15) of std_logic_vector(15 downto 0); 
-    constant stored_inst : rom_array  := (x"0013",x"0003",x"0007",x"0008",
-                                          x"0004",x"0005",x"0008",x"0001",
-                                          x"0008",x"0009",x"000a",x"000b",
-                                          x"000c",x"000d",x"000e",x"000f");
+    constant stored_inst : rom_array  := (x"69de",x"6905",x"6abe",x"6a03",
+                                          x"6a01",x"6bff",x"6cff",x"6dff",
+                                          x"e14d",x"e171",x"e255",x"6981",
+                                          x"6eff",x"6fff",x"69ff",x"6aff");
 begin
     process (en, addr)
     begin

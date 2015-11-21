@@ -132,64 +132,63 @@ architecture Behavioral of excited_cpu is
 
     --instruction decode
     component id
-        Port (rst : in  std_logic;
-              --signal from if stage          
-              pc        : in std_logic_vector(15 downto 0);
-              inst      : in std_logic_vector(15 downto 0);
-              --signal from general register file           
-              reg1_data : in std_logic_vector(15 downto 0);
-              reg2_data : in std_logic_vector(15 downto 0);
-              --signal from special register file 
-              sreg_data : in std_logic_vector(15 downto 0);
-              --signal for read general register          
-              reg1_addr : out std_logic_vector(2 downto 0);
-              reg1_en   : out std_logic;
-              reg2_addr : out std_logic_vector(2 downto 0);
-              reg2_en   : out std_logic;
-              --signal for read special register    
-              sreg_addr : out std_logic_vector(1 downto 0);
-              sreg_en   : out std_logic;
-              --signal for ex stage                   
-              alu_sel   : out std_logic_vector(2 downto 0);          
-              operand1  : out std_logic_vector(15 downto 0);
-              operand2  : out std_logic_vector(15 downto 0);
-              --write back signal  
-              wreg_addr : out std_logic_vector(2 downto 0);
-              wreg_en   : out std_logic;
-              wsreg_addr: out std_logic_vector(1 downto 0);
-              wsreg_en  : out std_logic;
-              ----------------------------------------------
-              --branch judge
-              branch      : out std_logic;
-              branch_addr : out std_logic_vector(15 downto 0);
-              --mem control
-              mem_read_en : out std_logic;
-              mem_write_en: out std_logic;
-              mem_write_data: out std_logic_vector(15 downto 0);          
-              --stall          
-              stall_request : out std_logic;
-              --forwarding 
-              ex_reg_write      : in std_logic;
-              ex_reg_write_addr : in std_logic_vector(2 downto 0);
-              ex_reg_write_data : in std_logic_vector(15 downto 0);
-              ex_sreg_write     : in std_logic;
-              ex_sreg_write_addr: in std_logic_vector(1 downto 0);
-              ex_sreg_write_data: in std_logic_vector(15 downto 0);
-              mem_reg_write     : in std_logic;
-              mem_reg_write_addr: in std_logic_vector(2 downto 0);
-              mem_reg_write_data: in std_logic_vector(15 downto 0);
-              mem_sreg_write    : in std_logic;
-              mem_sreg_write_addr:in std_logic_vector(1 downto 0);
-              mem_sreg_write_data:in std_logic_vector(15 downto 0);
-              is_ex_load        : in std_logic;
-              ex_load_addr      : in std_logic_vector(2 downto 0)); 
-    end component;
+Port (rst : in  std_logic;
+          --signal from if stage          
+          pc        : in std_logic_vector(15 downto 0);
+          inst		: in std_logic_vector(15 downto 0);
+          --signal from general register file           
+		  reg1_data : in std_logic_vector(15 downto 0);
+          reg2_data : in std_logic_vector(15 downto 0);
+          --signal from special register file 
+		  sreg_data : in std_logic_vector(15 downto 0);
+          --signal for read general register          
+          reg1_addr : inout std_logic_vector(2 downto 0);
+          reg1_en   : inout std_logic;
+          reg2_addr : inout std_logic_vector(2 downto 0);
+          reg2_en   : inout std_logic;
+          --signal for read special register    
+          sreg_addr : inout std_logic_vector(1 downto 0);
+          sreg_en   : inout std_logic;
+          --signal for ex stage          		  
+          alu_sel   : out std_logic_vector(2 downto 0);          
+          operand1  : out std_logic_vector(15 downto 0);
+          operand2  : out std_logic_vector(15 downto 0);
+          --write back signal  
+          wreg_addr : out std_logic_vector(2 downto 0);
+          wreg_en   : out std_logic;
+          wsreg_addr: out std_logic_vector(1 downto 0);
+			wsreg_en  : out std_logic;
+          ----------------------------------------------
+          --branch judge
+          branch      : out std_logic;
+          branch_addr : out std_logic_vector(15 downto 0);
+          --mem control
+          mem_read_en : out std_logic;
+          mem_write_en: inout std_logic;
+          mem_write_data: out std_logic_vector(15 downto 0);          
+          --stall          
+          stall_request : out std_logic;
+          --forwarding 
+          ex_reg_write : in std_logic;
+          ex_reg_write_addr : in std_logic_vector(2 downto 0);
+          ex_reg_write_data : in std_logic_vector(15 downto 0);
+          ex_sreg_write: in std_logic;
+          ex_sreg_write_addr: in std_logic_vector(1 downto 0);
+          ex_sreg_write_data : in std_logic_vector(15 downto 0);
+          mem_reg_write : in std_logic;
+          mem_reg_write_addr : in std_logic_vector(2 downto 0);
+          mem_reg_write_data : in std_logic_vector(15 downto 0);
+          mem_sreg_write: in std_logic;
+          mem_sreg_write_addr: in std_logic_vector(1 downto 0);
+          mem_sreg_write_data : in std_logic_vector(15 downto 0);
+          is_ex_load : in std_logic;
+          ex_load_addr: in std_logic_vector(2 downto 0));     end component;
 
     signal reg1_addr, reg2_addr, wreg_addr : std_logic_vector(2 downto 0);
     signal sreg_addr, wsreg_addr : std_logic_vector(1 downto 0);
-    signal reg1_en, reg2_en, sreg_en, wreg_en, wsreg_e, branch, id_mem_read_en, id_mem_write_en, id_stall_request: std_logic;    
+    signal reg1_en, reg2_en, sreg_en, wreg_en, wsreg_en, branch, id_mem_read_en, id_mem_write_en, id_stall_request: std_logic;    
     signal alu_sel   : std_logic_vector(2 downto 0);             
-    signal operand1, operand2, id_mem_write_data : std_logic_vector(15 downto 0);
+    signal operand1, operand2, id_mem_write_data, branch_addr : std_logic_vector(15 downto 0);
 
     --General Purpose Register File
     component g_regfile
@@ -264,32 +263,32 @@ architecture Behavioral of excited_cpu is
     --EX stage (alu)
     component ex
         Port ( rst : in  std_logic;
-               --signal from id stage                      
-               alusel       : in std_logic_vector(2 downto 0);
-               operand1     : in std_logic_vector(15 downto 0);
-               operand2     : in std_logic_vector(15 downto 0);
-               wreg_addr    : in std_logic_vector(2 downto 0);          
-               wreg_en      : in std_logic;
-               wsreg_addr   : in std_logic_vector(1 downto 0);          
-               wsreg_en     : in std_logic;
-               mem_read_en   : in std_logic;
-               mem_write_en  : in std_logic;
-               mem_write_data: in std_logic_vector(15 downto 0);  
-               --signal for mem stage          
-               wreg_data_out : out std_logic_vector(15 downto 0);  --also forwarding
-               wreg_addr_out : out std_logic_vector(2 downto 0);   --also forwarding        
-               wreg_en_out   : out std_logic;                      --also forwarding
-               wsreg_data_out : out std_logic_vector(15 downto 0); --also forwarding
-               wsreg_addr_out : out std_logic_vector(1 downto 0);  --also forwarding         
-               wsreg_en_out   : out std_logic;                     --also forwarding 
-               mem_read_en_out   : out std_logic;
-               mem_read_addr_out : out std_logic_vector(15 downto 0);
-               mem_write_en_out  : out std_logic;
-               mem_write_addr_out: out std_logic_vector(15 downto 0);
-               mem_write_data_out: out std_logic_vector(15 downto 0);
-               --load conflict forwarding
-               is_ex_load        : out std_logic;    
-               ex_load_addr      : out std_logic_vector(2 downto 0));
+           --signal from id stage                      
+           alusel  : in std_logic_vector(2 downto 0);
+           operand1: in std_logic_vector(15 downto 0);
+           operand2: in std_logic_vector(15 downto 0);
+           wreg_addr : in std_logic_vector(2 downto 0);          
+           wreg_en   : in std_logic;
+           wsreg_addr : in std_logic_vector(1 downto 0);          
+           wsreg_en   : in std_logic;
+           mem_read_en   : in std_logic;
+           mem_write_en  : in std_logic;
+           mem_write_data: in std_logic_vector(15 downto 0);  
+           --signal for mem stage          
+           wreg_data_out : out std_logic_vector(15 downto 0);  --also forwarding
+           wreg_addr_out : inout std_logic_vector(2 downto 0);   --also forwarding        
+           wreg_en_out   : inout std_logic;                      --also forwarding
+           wsreg_data_out : out std_logic_vector(15 downto 0); --also forwarding
+           wsreg_addr_out : out std_logic_vector(1 downto 0);  --also forwarding         
+           wsreg_en_out   : out std_logic;                     --also forwarding 
+           mem_read_en_out   : inout std_logic;
+           mem_read_addr_out : out std_logic_vector(15 downto 0);
+           mem_write_en_out  : out std_logic;
+           mem_write_addr_out: out std_logic_vector(15 downto 0);
+           mem_write_data_out: out std_logic_vector(15 downto 0);
+           --load conflict forwarding
+           is_ex_load        : out std_logic;    
+           ex_load_addr      : out std_logic_vector(2 downto 0));
     end component;
     
     signal wreg_data_out, wsreg_data_out, mem_read_addr_out, mem_write_addr_out, mem_write_data_out: std_logic_vector(15 downto 0);

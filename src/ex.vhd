@@ -9,7 +9,7 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx primitives in this code.
@@ -31,12 +31,12 @@ entity ex is
            mem_write_data: in std_logic_vector(15 downto 0);  
            --signal for mem stage          
            wreg_data_out : out std_logic_vector(15 downto 0);  --also forwarding
-           wreg_addr_out : out std_logic_vector(2 downto 0);   --also forwarding        
-           wreg_en_out   : out std_logic;                      --also forwarding
+           wreg_addr_out : inout std_logic_vector(2 downto 0);   --also forwarding        
+           wreg_en_out   : inout std_logic;                      --also forwarding
            wsreg_data_out : out std_logic_vector(15 downto 0); --also forwarding
            wsreg_addr_out : out std_logic_vector(1 downto 0);  --also forwarding         
            wsreg_en_out   : out std_logic;                     --also forwarding 
-           mem_read_en_out   : out std_logic;
+           mem_read_en_out   : inout std_logic;
            mem_read_addr_out : out std_logic_vector(15 downto 0);
            mem_write_en_out  : out std_logic;
            mem_write_addr_out: out std_logic_vector(15 downto 0);
@@ -106,15 +106,15 @@ begin
                     end if;
                 when "100" =>
                     if (operand2 = x"0000") then
-                        temp_result := operand1 SLL 8;
+                        temp_result := TO_STDLOGICVECTOR(TO_BITVECTOR(operand1) SLL 8);
                     else
-                        temp_result := operand1 SLL CONV_INTEGER(operand2);
+                        temp_result := TO_STDLOGICVECTOR(TO_BITVECTOR(operand1) SLL CONV_INTEGER(operand2));
                     end if;
                 when "101" =>
                     if (operand2 = x"0000") then
-                        temp_result := operand1 SRA 8;
+                        temp_result := TO_STDLOGICVECTOR(TO_BITVECTOR(operand1) SRA 8);
                     else
-                        temp_result := operand1 SRA CONV_INTEGER(operand2);
+                        temp_result := TO_STDLOGICVECTOR(TO_BITVECTOR(operand1) SRA CONV_INTEGER(operand2));
                     end if;
                 when "110" =>
                     temp_result := operand1 AND operand2;

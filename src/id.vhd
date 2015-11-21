@@ -27,13 +27,13 @@ entity id is  --instruction decode stage
           --signal from special register file 
 		  sreg_data : in std_logic_vector(15 downto 0);
           --signal for read general register          
-          reg1_addr : out std_logic_vector(2 downto 0);
-          reg1_en   : out std_logic;
-          reg2_addr : out std_logic_vector(2 downto 0);
-          reg2_en   : out std_logic;
+          reg1_addr : inout std_logic_vector(2 downto 0);
+          reg1_en   : inout std_logic;
+          reg2_addr : inout std_logic_vector(2 downto 0);
+          reg2_en   : inout std_logic;
           --signal for read special register    
-          sreg_addr : out std_logic_vector(1 downto 0);
-          sreg_en   : out std_logic;
+          sreg_addr : inout std_logic_vector(1 downto 0);
+          sreg_en   : inout std_logic;
           --signal for ex stage          		  
           alu_sel   : out std_logic_vector(2 downto 0);          
           operand1  : out std_logic_vector(15 downto 0);
@@ -49,7 +49,7 @@ entity id is  --instruction decode stage
           branch_addr : out std_logic_vector(15 downto 0);
           --mem control
           mem_read_en : out std_logic;
-          mem_write_en: out std_logic;
+          mem_write_en: inout std_logic;
           mem_write_data: out std_logic_vector(15 downto 0);          
           --stall          
           stall_request : out std_logic;
@@ -174,7 +174,7 @@ begin
                     branch_addr <= pc_1 + SXT(inst(10 downto 0),16);
                 when "00100" => --BEQZ
                     if (reg1_data_no_conflict = x"0000") then
-                        branch <= 0;
+                        branch <= '0';
                         branch_addr <= pc_1 + SXT(inst(7 downto 0),16);
                     else 
                         branch <= '1';
@@ -182,7 +182,7 @@ begin
                     end if;
                 when "00101" => --BNEZ
                     if (reg1_data_no_conflict /= x"0000") then
-                        branch <= 0;
+                        branch <= '0';
                         branch_addr <= pc_1 + SXT(inst(7 downto 0),16);
                     else 
                         branch <= '1';
@@ -218,7 +218,7 @@ begin
         end if;
     end process;
 
-    Update Operand:
+    Update_Operand:
     process(inst, reg1_data_no_conflict, reg1_en, reg2_data_no_conflict, reg2_en,
             sreg_data_no_conflict, sreg_en, imm, mem_write_en, rpc)
     begin
@@ -254,7 +254,7 @@ begin
             else
                 operand1 <= x"0000";
                 operand2 <= x"0000";
-            end if;;
+            end if;
         else
             operand1 <= x"0000";
             operand2 <= x"0000";
