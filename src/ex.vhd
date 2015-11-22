@@ -79,7 +79,7 @@ begin
     end process;
 
     ALU_OPERATION:  --make operation according to alusel
-    process (rst, operand1, operand2, alusel)
+    process (rst, operand1, operand2, alusel, mem_read_en, mem_write_en, wreg_en, wsreg_en)
         variable temp_result : std_logic_vector(15 downto 0);
     begin
         wreg_data_out <= x"0000";

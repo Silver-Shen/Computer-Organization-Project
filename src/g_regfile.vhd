@@ -29,7 +29,11 @@ entity g_regfile is
            reg2_addr : in std_logic_vector(2 downto 0);
            reg2_en : in std_logic;
            reg1_data : out std_logic_vector(15 downto 0);
-           reg2_data : out std_logic_vector(15 downto 0));
+           reg2_data : out std_logic_vector(15 downto 0);
+			  			  --test unit
+			  op			: in   std_logic_vector(2 downto 0);
+			  L			: out  std_logic_vector(15 downto 0)
+			  );
 end g_regfile;
 
 architecture Behavioral of g_regfile is    
@@ -48,7 +52,7 @@ begin
     end process;
 
     Read_Reg1: 
-    process(rst, reg1_addr, reg1_en, w_addr, w_en, w_data)
+    process(rst, reg1_addr, reg1_en, w_addr, w_en, w_data, regfile)
     begin
         if (rst = '0') then
             reg1_data <= x"0000";
@@ -62,7 +66,7 @@ begin
     end process;
 
     Read_Reg2:
-    process(rst, reg2_addr, reg2_en, w_addr, w_en, w_data)
+    process(rst, reg2_addr, reg2_en, w_addr, w_en, w_data, regfile)
     begin
         if (rst = '0') then
             reg2_data <= x"0000";
@@ -74,5 +78,11 @@ begin
             reg2_data <= x"0000";
         end if; 
     end process;
+	 
+	 Test:
+	 process(op, regfile)
+	 begin
+			L <= regfile(CONV_INTEGER(op));
+	 end process;
 end Behavioral;
 

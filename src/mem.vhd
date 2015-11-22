@@ -43,7 +43,7 @@ end mem;
 
 architecture Behavioral of mem is       
 begin
-    process (rst, wreg_en, wreg_addr, wreg_data, wsreg_en, wsreg_addr, wsreg_data)
+    process (rst, wreg_en, wreg_addr, wreg_data, wsreg_en, wsreg_addr, wsreg_data, mem_read_en, RamData)
     begin
         if (rst = '0') then           
             wreg_en_out <= '1';            

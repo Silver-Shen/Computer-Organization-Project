@@ -52,7 +52,8 @@ entity mmu is
            tbre        : in  std_logic;
            tsre        : in  std_logic;             
            rdn         : out std_logic;
-           wrn         : out std_logic);
+           wrn         : out std_logic
+			  );
 end mmu;
 
 architecture Behavioral of mmu is   
@@ -60,7 +61,7 @@ architecture Behavioral of mmu is
     signal mode: std_logic; 
 begin
     Prepare_Address_Data:
-    process (mem_read_addr, mem_read_en, mem_write_en, mem_write_addr, inst_en, inst_addr)
+    process (clk, mem_read_addr, mem_read_en, mem_write_en, mem_write_addr, inst_en, inst_addr, mem_write_data)
     begin
         stall_request <= '1';
 
@@ -73,7 +74,7 @@ begin
             if (mem_read_addr > x"7fff") then
                 Ram1Addr <= "00" & mem_read_addr;
                 Ram1Data <= "ZZZZZZZZZZZZZZZZ";
-                mode <= '0';
+                mode <= '0';stall_request <= '1';
             else 
                 Ram2Addr <= "00" & mem_read_addr;
                 Ram2Data <= "ZZZZZZZZZZZZZZZZ";
@@ -83,7 +84,7 @@ begin
         elsif (mem_write_en = '0') then
             if (mem_write_addr > x"7fff") then
                 Ram1Addr <= "00" & mem_write_addr;
-                Ram1Data <= mem_write_data;
+                Ram1Data <= mem_write_data;stall_request <= '1';
             else
                 Ram2Addr <= "00" & mem_write_addr;
                 Ram2Data <= mem_write_data;
@@ -94,7 +95,7 @@ begin
 
     Handle_Ram1: --Data Memory
     process(clk, rst, mem_read_en, mem_read_addr, 
-            mem_write_en,  mem_write_addr)
+            mem_write_en,  mem_write_addr, tbre, tsre, data_ready, Ram1Data)
         variable temp_data : std_logic;
     begin
         if (rst = '0') then 
@@ -109,7 +110,7 @@ begin
             Ram1EN <= '1';
             Ram1WE <= '1';
             Ram1OE <= '1';                        
-        elsif (clk'event and clk = '0') then
+        elsif (clk = '0') then
             if (mem_read_en = '0' and mem_read_addr > x"7fff") then --read ram1 or series
                 if (mem_read_addr = x"BF01") then  --read series status
                     temp_data := tbre and tsre;
@@ -141,8 +142,8 @@ begin
 
     Handle_Ram2: --Instruction Memory
     process(clk, rst, mem_read_en, mem_read_addr, 
-            mem_write_en,  mem_write_addr)
-        variable temp_data : std_logic;
+            mem_write_en,  mem_write_addr, Ram2Data)
+        --variable temp_data : std_logic;
     begin
         if (rst = '0') then            
             Ram2EN <= '1';
@@ -152,7 +153,7 @@ begin
             Ram2EN <= '1';
             Ram2WE <= '1';
             Ram2OE <= '1';                        
-        elsif (clk'event and clk = '0') then
+        elsif (clk = '0') then
             if (mem_read_en = '0' and mem_read_addr <= x"7fff") then --read ram2                
                 Ram2EN <= '0';
                 Ram2OE <= '0';

@@ -17,7 +17,7 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 --use UNISIM.VComponents.all;
 
 entity excited_cpu is
-    Port ( clk : in  std_logic;
+    Port ( fclk : in  std_logic;
            rst : in  std_logic;
            --signal for Ram1 (Data Memory)
            Ram1Addr : out   std_logic_vector (17 downto 0);
@@ -36,10 +36,19 @@ entity excited_cpu is
            tbre        : in  std_logic;
            tsre        : in  std_logic;             
            rdn         : out std_logic;
-           wrn         : out std_logic);                 
+           wrn         : out std_logic
+			  );                 
 end excited_cpu;
 
 architecture Behavioral of excited_cpu is
+
+	 component fd_clk
+	     Port ( clk : in  STD_LOGIC;
+           main_clk : out  STD_LOGIC);
+	 end component;
+	 
+	 signal clk : STD_LOGIC;
+	 
     --control unit
     component control 
         Port (  rst             : in  std_logic;
@@ -182,7 +191,8 @@ Port (rst : in  std_logic;
           mem_sreg_write_addr: in std_logic_vector(1 downto 0);
           mem_sreg_write_data : in std_logic_vector(15 downto 0);
           is_ex_load : in std_logic;
-          ex_load_addr: in std_logic_vector(2 downto 0));     end component;
+          ex_load_addr: in std_logic_vector(2 downto 0));     
+end component;
 
     signal reg1_addr, reg2_addr, wreg_addr : std_logic_vector(2 downto 0);
     signal sreg_addr, wsreg_addr : std_logic_vector(1 downto 0);
@@ -388,6 +398,9 @@ Port (rst : in  std_logic;
     signal wb_wsreg_addr : std_logic_vector(1 downto 0);
 
 begin
+	
+	 fd_clk_unit: fd_clk port map (fclk,clk);
+	 
     control_unit: control port map (rst, id_stall_request, mmu_stall_request, 
                                     stall_for_pc, stall_for_if, stall_for_id);
 
@@ -454,5 +467,7 @@ begin
                                       mem_wsreg_data_out, mem_wsreg_addr_out, mem_wsreg_en_out,
                                       wb_wreg_data, wb_wreg_addr, wb_wreg_en,
                                       wb_wsreg_data, wb_wsreg_addr, wb_wsreg_en);
+	
+
 end Behavioral;
 

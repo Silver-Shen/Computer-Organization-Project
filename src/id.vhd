@@ -67,7 +67,10 @@ entity id is  --instruction decode stage
           mem_sreg_write_addr: in std_logic_vector(1 downto 0);
           mem_sreg_write_data : in std_logic_vector(15 downto 0);
           is_ex_load : in std_logic;
-          ex_load_addr: in std_logic_vector(2 downto 0)); 
+          ex_load_addr: in std_logic_vector(2 downto 0);
+			 --test
+			 pc_out : out std_logic_vector(15 downto 0);
+			 inst_out : out std_logic_vector(15 downto 0)); 
 end id;
 
 architecture Behavioral of id is    
@@ -80,6 +83,8 @@ architecture Behavioral of id is
     --JALR
     signal rpc : std_logic_vector(15 downto 0);   
 begin
+	 pc_out <= pc;
+	 inst_out <= inst;
     Pre_Decode:
     process (inst)
     begin
@@ -160,7 +165,7 @@ begin
     end process;
 
     Handle_Branch_Conflict:
-    process (rst, inst, reg1_data_no_conflict, sreg_data_no_conflict)
+    process (rst, inst, reg1_data_no_conflict, sreg_data_no_conflict, pc)
         variable pc_1 : std_logic_vector(15 downto 0);
     begin
         if (rst = '0') then
@@ -220,7 +225,7 @@ begin
 
     Update_Operand:
     process(inst, reg1_data_no_conflict, reg1_en, reg2_data_no_conflict, reg2_en,
-            sreg_data_no_conflict, sreg_en, imm, mem_write_en, rpc)
+            sreg_data_no_conflict, sreg_en, imm, mem_write_en, rpc, pc)
     begin
         if (mem_write_en = '0') then
             if (inst(15 downto 11) = "11011") then --SW
@@ -262,7 +267,7 @@ begin
     end process;
 
     Handle_Mem_Write_Addr:
-    process (inst, reg1_data_no_conflict, reg2_data_no_conflict)
+    process (inst, reg1_data_no_conflict, reg2_data_no_conflict, pc, inst)
     begin
         if (inst(15 downto 11) = "11011") then
             mem_write_data <= reg2_data_no_conflict;
@@ -274,7 +279,7 @@ begin
     end process;
 
     Decode:
-    process (rst, inst_header, inst_tail, regx, regy, reg1_data, reg2_data, sreg_data)
+    process (rst, inst_header, inst_tail, regx, regy, reg1_data, reg2_data, sreg_data, pc, inst)
     begin
 		if (rst = '0' or inst_header = "00001") then			
             alu_sel <= "000";   				--alu selector

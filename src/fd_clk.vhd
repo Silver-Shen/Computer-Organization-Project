@@ -31,20 +31,20 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity fd_clk is
     Port ( clk : in  STD_LOGIC;
-           main_clk : out  STD_LOGIC := '0');
+           main_clk : out  STD_LOGIC);
 end fd_clk;
 
 architecture Behavioral of fd_clk is
 begin
 	process(clk)
-		variable cnt: integer range 0 to 2:= 0;
+		variable cnt: integer range 0 to 4:= 0;
 	begin
 		if(clk'event and clk = '1') then
 			cnt := cnt + 1;
-			if(cnt = 1) then
+			if(cnt = 2) then
 				main_clk <= '1';
 			end if;
-			if(cnt = 2) then
+			if(cnt = 4) then
 				main_clk <= '0';
 				cnt := 0;
 			end if;

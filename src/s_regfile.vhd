@@ -26,7 +26,10 @@ entity s_regfile is
            --read_reg signal           
            reg_addr : in std_logic_vector(1 downto 0);
            reg_en : in std_logic;           
-           reg_data : out std_logic_vector(15 downto 0));          
+           reg_data : out std_logic_vector(15 downto 0);
+			  --test unit
+			  op : in std_logic_vector(1 downto 0);
+			  g_r_out : out std_logic_vector(15 downto 0));          
 end s_regfile;
 
 architecture Behavioral of s_regfile is
@@ -36,6 +39,19 @@ architecture Behavioral of s_regfile is
     signal RA : std_logic_vector(15 downto 0);
     signal SP : std_logic_vector(15 downto 0);
 begin
+
+	 Test:
+	 process (op,T,IH,RA,SP)
+	 begin
+	  case op is
+		when "00"=>g_r_out <= "000000000000000" & T;
+		when "01"=>g_r_out <= IH;
+		when "10"=>g_r_out <= RA;
+		when "11"=>g_r_out <= SP;
+		when others=>null;
+	  end case;
+	 end process;
+	 
     Write_Back:    
     process (clk, rst)
     begin       
@@ -57,7 +73,7 @@ begin
     end process;
 
     Read_Reg:    
-    process(rst, reg_addr, reg_en, w_addr, w_en, w_data)
+    process(rst, reg_addr, reg_en, w_addr, w_en, w_data, T, IH, RA, SP)
     begin
         if (rst = '0') then
             reg_data <= x"0000";
