@@ -37,10 +37,10 @@ begin
             en <= '1';
 			pc <= x"0000"; 
         elsif (clk'event and clk = '1') then
-            if (stall = '1' and branch = '0') then
+            if (branch = '0') then
                 stored_pc <= branch_addr;
                 en <= '0';
-			    pc <= branch_addr;
+						pc <= branch_addr;
             elsif (stall = '1' and branch = '1') then
                 stored_pc <= stored_pc + 1;
                 en <= '0';

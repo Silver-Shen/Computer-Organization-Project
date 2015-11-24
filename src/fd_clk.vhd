@@ -19,6 +19,7 @@
 ----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_unsigned.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -35,19 +36,13 @@ entity fd_clk is
 end fd_clk;
 
 architecture Behavioral of fd_clk is
+signal cnt: std_logic_vector(1 downto 0):= "00";
 begin
+	main_clk <= cnt(0);
 	process(clk)
-		variable cnt: integer range 0 to 4:= 0;
 	begin
-		if(clk'event and clk = '1') then
-			cnt := cnt + 1;
-			if(cnt = 2) then
-				main_clk <= '1';
-			end if;
-			if(cnt = 4) then
-				main_clk <= '0';
-				cnt := 0;
-			end if;
+		if(rising_edge(clk)) then
+			cnt <= cnt + 1;
 		end if;
 	end process;
 end Behavioral;

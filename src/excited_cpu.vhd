@@ -18,6 +18,8 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity excited_cpu is
     Port ( fclk : in  std_logic;
+			  hclk : in  std_logic;
+			  mode : in  std_logic;
            rst : in  std_logic;
            --signal for Ram1 (Data Memory)
            Ram1Addr : out   std_logic_vector (17 downto 0);
@@ -36,18 +38,34 @@ entity excited_cpu is
            tbre        : in  std_logic;
            tsre        : in  std_logic;             
            rdn         : out std_logic;
-           wrn         : out std_logic
+           wrn         : out std_logic;
+			  --test unit
+			  op			: in   std_logic_vector(7 downto 0);
+			  L			: out  std_logic_vector(15 downto 0);
+			  mem_read_en_l : out std_logic;
+			  mem_write_en_1 : out std_logic;
+			  data_ready_signal : out std_logic;
+			  rdn1		: out std_logic
+		--	  out1		: out  std_logic_vector(6 downto 0);
+		--	  out2		: out  std_logic_vector(6 downto 0)
 			  );                 
 end excited_cpu;
 
 architecture Behavioral of excited_cpu is
 
+	 --test unit
+	 signal g_data : std_logic_vector(15 downto 0);
+	 signal s_data : std_logic_vector(15 downto 0);
+	 signal pc_address : std_logic_vector(15 downto 0);
+	 signal inst_data : std_logic_vector(15 downto 0);
+	 signal op1 : std_logic_vector(15 downto 0);
+	 signal op2 : std_logic_vector(15 downto 0);
+	 
+	 signal clk : std_logic;
 	 component fd_clk
-	     Port ( clk : in  STD_LOGIC;
+	      Port ( clk : in  STD_LOGIC;
            main_clk : out  STD_LOGIC);
 	 end component;
-	 
-	 signal clk : STD_LOGIC;
 	 
     --control unit
     component control 
@@ -115,7 +133,9 @@ architecture Behavioral of excited_cpu is
                tbre        : in  std_logic;
                tsre        : in  std_logic;             
                rdn         : out std_logic;
-               wrn         : out std_logic);
+               wrn         : out std_logic;
+					data_ready_out : out std_logic;
+					rdn1			: out std_logic);
     end component;
 
     signal inst : std_logic_vector(15 downto 0);
@@ -191,7 +211,9 @@ Port (rst : in  std_logic;
           mem_sreg_write_addr: in std_logic_vector(1 downto 0);
           mem_sreg_write_data : in std_logic_vector(15 downto 0);
           is_ex_load : in std_logic;
-          ex_load_addr: in std_logic_vector(2 downto 0));     
+          ex_load_addr: in std_logic_vector(2 downto 0);
+			 pc_out : out std_logic_vector(15 downto 0);
+			 inst_out : out std_logic_vector(15 downto 0));     
 end component;
 
     signal reg1_addr, reg2_addr, wreg_addr : std_logic_vector(2 downto 0);
@@ -214,7 +236,9 @@ end component;
                reg2_addr : in std_logic_vector(2 downto 0);
                reg2_en   : in std_logic;
                reg1_data : out std_logic_vector(15 downto 0);
-               reg2_data : out std_logic_vector(15 downto 0));
+               reg2_data : out std_logic_vector(15 downto 0);
+					op	  		 : in   std_logic_vector(2 downto 0);
+					L			 : out  std_logic_vector(15 downto 0));
     end component;
 
     signal reg1_data,reg2_data : std_logic_vector(15 downto 0);
@@ -230,7 +254,9 @@ end component;
                --read_reg signal           
                reg_addr : in std_logic_vector(1 downto 0);
                reg_en   : in std_logic;           
-               reg_data : out std_logic_vector(15 downto 0));       
+               reg_data : out std_logic_vector(15 downto 0);
+					op : in std_logic_vector(1 downto 0);
+					g_r_out : out std_logic_vector(15 downto 0));       
     end component;
 
     signal sreg_data : std_logic_vector(15 downto 0);
@@ -398,7 +424,6 @@ end component;
     signal wb_wsreg_addr : std_logic_vector(1 downto 0);
 
 begin
-	
 	 fd_clk_unit: fd_clk port map (fclk,clk);
 	 
     control_unit: control port map (rst, id_stall_request, mmu_stall_request, 
@@ -411,7 +436,7 @@ begin
                                 inst, data, mmu_stall_request,
                                 Ram1Addr, Ram1Data, Ram1OE, Ram1WE, Ram1EN,
                                 Ram2Addr, Ram2Data, Ram2OE, Ram2WE, Ram2EN,
-                                data_ready, tbre, tsre, rdn, wrn);
+                                data_ready, tbre, tsre, rdn, wrn, data_ready_signal, rdn1);
 
     if_id_register : if_id port map (clk, rst, stall_for_if, pc, inst, id_pc, id_inst);
 
@@ -423,14 +448,14 @@ begin
                             wsreg_en_out, wsreg_addr_out, wsreg_data_out, 
                             mem_wreg_en_out, mem_wreg_addr_out, mem_wreg_data_out,
                             mem_wsreg_en_out, mem_wsreg_addr_out, mem_wsreg_data_out,
-                            is_ex_load, ex_load_addr);
+                            is_ex_load, ex_load_addr, pc_address, inst_data);
 
     g_regfile_unit : g_regfile port map(clk, rst, wb_wreg_addr, wb_wreg_data, wb_wreg_en, 
                                         reg1_addr, reg1_en, reg2_addr, reg2_en, 
-                                        reg1_data, reg2_data);
+                                        reg1_data, reg2_data, op(2 downto 0), g_data);
 
     s_regfile_unit : s_regfile port map(clk, rst, wb_wsreg_addr, wb_wsreg_data, wb_wsreg_en,
-                                        sreg_addr, sreg_en, sreg_data);
+                                        sreg_addr, sreg_en, sreg_data, op(4 downto 3), s_data);
 
     id_ex_register : id_ex port map(clk, rst, stall_for_id, alu_sel, operand1, operand2,
                                     wreg_addr, wreg_en, wsreg_addr, wsreg_en,
@@ -468,6 +493,26 @@ begin
                                       wb_wreg_data, wb_wreg_addr, wb_wreg_en,
                                       wb_wsreg_data, wb_wsreg_addr, wb_wsreg_en);
 	
+	 
+--	 stall1 <= id_stall_request;
+--	 stall2 <= mmu_stall_request;
+	 mem_read_en_l <= mem_read_en;
+	 mem_write_en_1 <= mem_write_en;
+	 op1 <= operand1;
+	 op2 <= operand2;
+
+process(op,g_data,s_data,pc_address,inst_data)
+begin
+	case op(7 downto 5) is
+		when "000"=>L<=g_data;
+		when "001"=>L<=s_data;
+		when "010"=>L<=pc_address;
+		when "011"=>L<=inst_data;
+		when "100"=>L<=op1;
+		when "101"=>L<=op2;
+		when others=>L<=not x"0000";
+	end case;
+end process;
 
 end Behavioral;
 

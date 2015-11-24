@@ -52,129 +52,168 @@ entity mmu is
            tbre        : in  std_logic;
            tsre        : in  std_logic;             
            rdn         : out std_logic;
-           wrn         : out std_logic
+           wrn         : out std_logic;
+			  data_ready_out : out std_logic;
+			  rdn1			: out std_logic
 			  );
 end mmu;
 
 architecture Behavioral of mmu is   
-    signal data1, data2 : std_logic_vector(15 downto 0);
-    signal mode: std_logic; 
+    signal Address : std_logic_vector(15 downto 0); 
 begin
-    Prepare_Address_Data:
-    process (clk, mem_read_addr, mem_read_en, mem_write_en, mem_write_addr, inst_en, inst_addr, mem_write_data)
+	data_ready_out <= not data_ready;
+    Make_Address:
+    process(mem_read_en, mem_read_addr, mem_write_addr, mem_write_en)
     begin
-        stall_request <= '1';
-
-        if (inst_en = '0') then
-            Ram2Addr <= "00" & inst_addr;            
-            Ram2Data <= "ZZZZZZZZZZZZZZZZ";
-        end if;
-
-        if (mem_read_en = '0') then            
-            if (mem_read_addr > x"7fff") then
-                Ram1Addr <= "00" & mem_read_addr;
-                Ram1Data <= "ZZZZZZZZZZZZZZZZ";
-                mode <= '0';stall_request <= '1';
-            else 
-                Ram2Addr <= "00" & mem_read_addr;
-                Ram2Data <= "ZZZZZZZZZZZZZZZZ";
-                stall_request <= '0';
-                mode <= '1';
-            end if;
+        if (mem_read_en = '0') then
+            Address <= mem_read_addr;
         elsif (mem_write_en = '0') then
-            if (mem_write_addr > x"7fff") then
-                Ram1Addr <= "00" & mem_write_addr;
-                Ram1Data <= mem_write_data;stall_request <= '1';
-            else
-                Ram2Addr <= "00" & mem_write_addr;
-                Ram2Data <= mem_write_data;
-                stall_request <= '0';
-            end if;
+            Address <= mem_write_addr;
+        else
+            Address <= (others => '0');
         end if;
     end process;
 
-    Handle_Ram1: --Data Memory
-    process(clk, rst, mem_read_en, mem_read_addr, 
-            mem_write_en,  mem_write_addr, tbre, tsre, data_ready, Ram1Data)
-        variable temp_data : std_logic;
+    Ram2EN <= '0';
+    inst <= Ram2Data;
+
+    Handle_ALL:
+    process(clk, mem_read_en, mem_write_en, mem_write_data, Address,
+            Ram1Data, tsre, tbre, data_ready, inst_en, inst_addr)
     begin
-        if (rst = '0') then 
+        stall_request <= '1';
+
+        if (Address = x"BF00") then
+            Ram1EN <= '1';
+            Ram1WE <= '1';
+            Ram1OE <= '1';
+
+            Ram2OE <= '0';
+            Ram2WE <= '1';
+
+            Ram2Addr <= "00" & inst_addr;
+            Ram2Data <= (others => 'Z');
+            if (mem_write_en = '0') then
+                rdn <= '1';
+                rdn1 <= '1';
+                wrn <= clk;
+                Ram1Data <= mem_write_data;
+                data <= Ram1Data;
+            elsif (mem_read_en = '0') then
+                rdn <= '0';
+                rdn1 <= '0';
+                wrn <= '1';
+                Ram1Data <= (others => 'Z');
+                Ram1Addr <= "00" & Address;
+                data <= Ram1Data;
+            else
+                rdn <= '1';
+                rdn1 <= '1';
+                Ram1Data <= mem_write_data;
+                Ram1Addr <= (others => 'Z');
+                data <= (others => '0');
+            end if;
+        elsif (Address = x"BF01") then
             rdn <= '1';
+            rdn1 <= '1';
             wrn <= '1';
             Ram1EN <= '1';
             Ram1WE <= '1';
             Ram1OE <= '1';
-        elsif (clk = '1') then            
+
+            Ram2OE <= '0';
+            Ram2WE <= '1';
+
+            Ram2Addr <= "00" & inst_addr;
+            Ram2Data <= (others => 'Z');
+            if (mem_read_en = '0') then
+                Ram1Data <= mem_write_data;
+                Ram1Addr <= "00" & Address;
+                data <= (1=>data_ready, 0=>(tsre AND tbre), others=>'0');
+            else
+                Ram1Data <= mem_write_data;
+                Ram1Addr <= (others => '0');
+                data <= Ram1Data;
+            end if;
+        elsif (Address = x"BF02" or Address = x"BF03") then
             rdn <= '1';
+            rdn1 <= '1';
             wrn <= '1';
             Ram1EN <= '1';
             Ram1WE <= '1';
-            Ram1OE <= '1';                        
-        elsif (clk = '0') then
-            if (mem_read_en = '0' and mem_read_addr > x"7fff") then --read ram1 or series
-                if (mem_read_addr = x"BF01") then  --read series status
-                    temp_data := tbre and tsre;
-                    data1 <= "00000000000000" & data_ready & temp_data;
-                elsif (mem_read_addr = x"BF00") then --read series
-                    rdn <= '0';
-                    data1 <= Ram1Data;
-                else  --read ram1
-                    Ram1EN <= '0';
-                    Ram1OE <= '0';
-                    data1 <= Ram1Data;
-                end if;
-            elsif (mem_write_en ='0' and mem_write_addr > x"7fff") then --write ram1 or series
-                if (mem_write_addr = x"BF00") then --write series
-                    wrn <= '0';
-                else   --write ram1                 
-                    Ram1EN <= '0';
-                    Ram1WE <= '0';                
-                end if;
-            else
-                rdn <= '1';
-                wrn <= '1';
+            Ram1OE <= '1';
+            Ram1Data <= mem_write_data;
+            Ram1Addr <= "00" & Address;
+            Ram2OE <= '0';
+            Ram2WE <= '1';
+            Ram2Addr <= "00" & inst_addr;
+            Ram2Data <= (others => 'Z');
+        else
+            rdn <= '1';
+            rdn1 <= '1';
+            wrn <= '1';
+
+            if (Address < x"8000") then
                 Ram1EN <= '1';
                 Ram1WE <= '1';
-                Ram1OE <= '1'; 
-            end if;            
-        end if;
-    end process;
-
-    Handle_Ram2: --Instruction Memory
-    process(clk, rst, mem_read_en, mem_read_addr, 
-            mem_write_en,  mem_write_addr, Ram2Data)
-        --variable temp_data : std_logic;
-    begin
-        if (rst = '0') then            
-            Ram2EN <= '1';
-            Ram2WE <= '1';
-            Ram2OE <= '1';
-        elsif (clk = '1') then                       
-            Ram2EN <= '1';
-            Ram2WE <= '1';
-            Ram2OE <= '1';                        
-        elsif (clk = '0') then
-            if (mem_read_en = '0' and mem_read_addr <= x"7fff") then --read ram2                
-                Ram2EN <= '0';
+                Ram1OE <= '1';
+                Ram1Data <= mem_write_data;
+                Ram1Addr <= (others => '0');                
+                if (Address <x"4000") then
+                    Ram2OE <= '0';
+                    Ram2WE <= '1';
+                    Ram2Addr <= "00" & inst_addr;
+                    Ram2Data <= (others => 'Z');
+                    data <= (others => '0');
+                elsif (mem_read_en = '0') then
+                    stall_request <= '0';
+                    Ram2OE <= '0';
+                    Ram2WE <= '1';
+                    Ram2Addr <= "00" & Address;
+                    Ram2Data <= (others => 'Z');
+                    data <= Ram2Data;
+                elsif (mem_write_en = '0') then
+                    stall_request <= '0';
+                    Ram2OE <= '1';
+                    Ram2WE <= clk;
+                    Ram2Addr <= "00" & Address;
+                    Ram2Data <= mem_write_data;
+                    data <= Ram2Data;
+                else
+                    Ram2OE <= '0';
+                    Ram2WE <= '1';
+                    Ram2Addr <= "00" & inst_addr;
+                    Ram2Data <= (others => 'Z');
+                    data <= (others => '0');
+                end if;
+            else
                 Ram2OE <= '0';
-                data2 <= Ram2Data;                
-            elsif (mem_write_en ='0' and mem_write_addr <= x"7fff") then --write ram2
-                Ram2EN <= '0';
-                Ram2WE <= '0';                
-            else                
-                Ram2EN <= '0';                
-                Ram2OE <= '0'; 
-                inst <= Ram2Data;
-            end if;            
-        end if;
-    end process;
-
-    process (data1, data2, mode)
-    begin
-        if (mode = '0') then
-            data <= data1;
-        else
-            data <= data2;
+                Ram2WE <= '1';
+                Ram2Addr <= "00" & inst_addr;
+                Ram2Data <= (others => 'Z');
+                if (mem_write_en = '0') then
+                    Ram1EN <= '0';
+                    Ram1WE <= clk;
+                    Ram1OE <= '1';
+                    Ram1Data <= mem_write_data;
+                    Ram1Addr <= "00" & Address;
+                    data <= Ram1Data;
+                elsif (mem_read_en = '0') then
+                    Ram1EN <= '0';
+                    Ram1OE <= '0';
+                    Ram1WE <= '1';
+                    Ram1Data <= (others => 'Z');
+                    Ram1Addr <= "00" & Address;
+                    data <= Ram1Data;
+                else
+                    Ram1EN <= '1';
+                    Ram1WE <= '1';
+                    Ram1OE <= '1';
+                    Ram1Data <= mem_write_data;
+                    Ram1Addr <= (others => '0');
+                    data <= Ram1Data;
+                end if;
+            end if;
         end if;
     end process;
 end Behavioral;
