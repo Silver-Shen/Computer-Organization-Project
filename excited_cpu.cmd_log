@@ -1,0 +1,1 @@
+xst -intstyle ise -ifn "E:/Computer_Organization/CPU_FINAL/excited_cpu.xst" -ofn "E:/Computer_Organization/CPU_FINAL/excited_cpu.syr" 

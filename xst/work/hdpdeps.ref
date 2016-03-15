@@ -1,0 +1,127 @@
+V3 83
+FL E:/Computer_Organization/CPU_FINAL/clkcon.vhd 2011/09/20.15:49:18 P.20131013
+EN work/clkcon 1449840848 FL E:/Computer_Organization/CPU_FINAL/clkcon.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/std_logic_arith 1381692177 \
+      PB ieee/STD_LOGIC_UNSIGNED 1381692179
+AR work/clkcon/v1 1449840849 \
+      FL E:/Computer_Organization/CPU_FINAL/clkcon.vhd EN work/clkcon 1449840848
+FL E:/Computer_Organization/CPU_FINAL/control.vhd 2015/11/29.01:13:28 P.20131013
+EN work/control 1449840858 FL E:/Computer_Organization/CPU_FINAL/control.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/std_logic_arith 1381692177 \
+      PB ieee/STD_LOGIC_UNSIGNED 1381692179
+AR work/control/Behavioral 1449840859 \
+      FL E:/Computer_Organization/CPU_FINAL/control.vhd EN work/control 1449840858
+FL E:/Computer_Organization/CPU_FINAL/ex.vhd 2015/11/29.23:58:58 P.20131013
+EN work/ex 1449840876 FL E:/Computer_Organization/CPU_FINAL/ex.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/std_logic_arith 1381692177 \
+      PB ieee/STD_LOGIC_UNSIGNED 1381692179 PB ieee/NUMERIC_STD 1381692181
+AR work/ex/Behavioral 1449840877 \
+      FL E:/Computer_Organization/CPU_FINAL/ex.vhd EN work/ex 1449840876
+FL E:/Computer_Organization/CPU_FINAL/excited_cpu.vhd 2015/12/11.13:31:06 P.20131013
+EN work/excited_cpu 1449840884 \
+      FL E:/Computer_Organization/CPU_FINAL/excited_cpu.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/std_logic_arith 1381692177 \
+      PB ieee/STD_LOGIC_UNSIGNED 1381692179
+AR work/excited_cpu/Behavioral 1449840885 \
+      FL E:/Computer_Organization/CPU_FINAL/excited_cpu.vhd EN work/excited_cpu 1449840884 \
+      CP ps2 CP vga CP uart CP fd_clk CP control CP pc_reg CP mmu CP flash CP if_id CP id \
+      CP g_regfile CP s_regfile CP id_ex CP ex CP ex_mem CP mem CP mem_wb
+FL E:/Computer_Organization/CPU_FINAL/ex_mem.vhd 2015/11/29.23:59:12 P.20131013
+EN work/ex_mem 1449840878 FL E:/Computer_Organization/CPU_FINAL/ex_mem.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/std_logic_arith 1381692177 \
+      PB ieee/STD_LOGIC_UNSIGNED 1381692179
+AR work/ex_mem/Behavioral 1449840879 \
+      FL E:/Computer_Organization/CPU_FINAL/ex_mem.vhd EN work/ex_mem 1449840878
+FL E:/Computer_Organization/CPU_FINAL/fd_clk.vhd 2015/12/11.13:09:45 P.20131013
+EN work/fd_clk 1449840856 FL E:/Computer_Organization/CPU_FINAL/fd_clk.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/STD_LOGIC_UNSIGNED 1381692179
+AR work/fd_clk/Behavioral 1449840857 \
+      FL E:/Computer_Organization/CPU_FINAL/fd_clk.vhd EN work/fd_clk 1449840856
+FL E:/Computer_Organization/CPU_FINAL/flash.vhd 2015/11/30.09:17:50 P.20131013
+EN work/flash 1449840864 FL E:/Computer_Organization/CPU_FINAL/flash.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/std_logic_arith 1381692177 \
+      PB ieee/STD_LOGIC_UNSIGNED 1381692179
+AR work/flash/Behavioral 1449840865 \
+      FL E:/Computer_Organization/CPU_FINAL/flash.vhd EN work/flash 1449840864
+FL E:/Computer_Organization/CPU_FINAL/g_regfile.vhd 2015/11/30.18:45:56 P.20131013
+EN work/g_regfile 1449840870 FL E:/Computer_Organization/CPU_FINAL/g_regfile.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/std_logic_arith 1381692177 \
+      PB ieee/STD_LOGIC_UNSIGNED 1381692179
+AR work/g_regfile/Behavioral 1449840871 \
+      FL E:/Computer_Organization/CPU_FINAL/g_regfile.vhd EN work/g_regfile 1449840870
+FL E:/Computer_Organization/CPU_FINAL/id.vhd 2015/12/02.18:12:35 P.20131013
+EN work/id 1449840868 FL E:/Computer_Organization/CPU_FINAL/id.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/std_logic_arith 1381692177 \
+      PB ieee/STD_LOGIC_UNSIGNED 1381692179 PB ieee/NUMERIC_STD 1381692181
+AR work/id/Behavioral 1449840869 \
+      FL E:/Computer_Organization/CPU_FINAL/id.vhd EN work/id 1449840868
+FL E:/Computer_Organization/CPU_FINAL/id_ex.vhd 2015/11/21.10:40:48 P.20131013
+EN work/id_ex 1449840874 FL E:/Computer_Organization/CPU_FINAL/id_ex.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/std_logic_arith 1381692177 \
+      PB ieee/STD_LOGIC_UNSIGNED 1381692179
+AR work/id_ex/Behavioral 1449840875 \
+      FL E:/Computer_Organization/CPU_FINAL/id_ex.vhd EN work/id_ex 1449840874
+FL E:/Computer_Organization/CPU_FINAL/if_id.vhd 2015/11/29.23:49:24 P.20131013
+EN work/if_id 1449840866 FL E:/Computer_Organization/CPU_FINAL/if_id.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/std_logic_arith 1381692177 \
+      PB ieee/STD_LOGIC_UNSIGNED 1381692179
+AR work/if_id/Behavioral 1449840867 \
+      FL E:/Computer_Organization/CPU_FINAL/if_id.vhd EN work/if_id 1449840866
+FL E:/Computer_Organization/CPU_FINAL/mem.vhd 2015/11/21.16:10:50 P.20131013
+EN work/mem 1449840880 FL E:/Computer_Organization/CPU_FINAL/mem.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/std_logic_arith 1381692177 \
+      PB ieee/STD_LOGIC_UNSIGNED 1381692179
+AR work/mem/Behavioral 1449840881 \
+      FL E:/Computer_Organization/CPU_FINAL/mem.vhd EN work/mem 1449840880
+FL E:/Computer_Organization/CPU_FINAL/mem_wb.vhd 2015/11/15.12:24:40 P.20131013
+EN work/mem_wb 1449840882 FL E:/Computer_Organization/CPU_FINAL/mem_wb.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/std_logic_arith 1381692177 \
+      PB ieee/STD_LOGIC_UNSIGNED 1381692179
+AR work/mem_wb/Behavioral 1449840883 \
+      FL E:/Computer_Organization/CPU_FINAL/mem_wb.vhd EN work/mem_wb 1449840882
+FL E:/Computer_Organization/CPU_FINAL/mmu.vhd 2015/12/11.13:16:22 P.20131013
+EN work/mmu 1449840862 FL E:/Computer_Organization/CPU_FINAL/mmu.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/std_logic_arith 1381692177 \
+      PB ieee/STD_LOGIC_UNSIGNED 1381692179
+AR work/mmu/Behavioral 1449840863 \
+      FL E:/Computer_Organization/CPU_FINAL/mmu.vhd EN work/mmu 1449840862
+FL E:/Computer_Organization/CPU_FINAL/pc_reg.vhd 2015/12/03.08:55:36 P.20131013
+EN work/pc_reg 1449840860 FL E:/Computer_Organization/CPU_FINAL/pc_reg.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/std_logic_arith 1381692177 \
+      PB ieee/STD_LOGIC_UNSIGNED 1381692179
+AR work/pc_reg/Behavioral 1449840861 \
+      FL E:/Computer_Organization/CPU_FINAL/pc_reg.vhd EN work/pc_reg 1449840860
+FL E:/Computer_Organization/CPU_FINAL/ps2.vhd 2015/12/02.13:11:32 P.20131013
+EN work/ps2 1449840850 FL E:/Computer_Organization/CPU_FINAL/ps2.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/STD_LOGIC_UNSIGNED 1381692179
+AR work/ps2/Behavioral 1449840851 \
+      FL E:/Computer_Organization/CPU_FINAL/ps2.vhd EN work/ps2 1449840850
+FL E:/Computer_Organization/CPU_FINAL/rcvr.vhd 2015/11/29.20:24:32 P.20131013
+EN work/rcvr 1449840846 FL E:/Computer_Organization/CPU_FINAL/rcvr.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/std_logic_arith 1381692177
+AR work/rcvr/v1 1449840847 \
+      FL E:/Computer_Organization/CPU_FINAL/rcvr.vhd EN work/rcvr 1449840846
+FL E:/Computer_Organization/CPU_FINAL/s_regfile.vhd 2015/11/30.18:46:04 P.20131013
+EN work/s_regfile 1449840872 FL E:/Computer_Organization/CPU_FINAL/s_regfile.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/std_logic_arith 1381692177 \
+      PB ieee/STD_LOGIC_UNSIGNED 1381692179
+AR work/s_regfile/Behavioral 1449840873 \
+      FL E:/Computer_Organization/CPU_FINAL/s_regfile.vhd EN work/s_regfile 1449840872
+FL E:/Computer_Organization/CPU_FINAL/txmit.vhd 2011/11/30.22:22:52 P.20131013
+EN work/txmit 1449840844 FL E:/Computer_Organization/CPU_FINAL/txmit.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/std_logic_arith 1381692177
+AR work/txmit/v1 1449840845 \
+      FL E:/Computer_Organization/CPU_FINAL/txmit.vhd EN work/txmit 1449840844
+FL E:/Computer_Organization/CPU_FINAL/uart.vhd 2015/12/03.10:58:47 P.20131013
+EN work/uart 1449840854 FL E:/Computer_Organization/CPU_FINAL/uart.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/std_logic_arith 1381692177 \
+      PB ieee/STD_LOGIC_UNSIGNED 1381692179
+AR work/uart/v1 1449840855 \
+      FL E:/Computer_Organization/CPU_FINAL/uart.vhd EN work/uart 1449840854 \
+      CP txmit CP rcvr CP clkcon
+FL E:/Computer_Organization/CPU_FINAL/vga.vhd 2015/12/02.13:23:40 P.20131013
+EN work/vga 1449840852 FL E:/Computer_Organization/CPU_FINAL/vga.vhd \
+      PB ieee/std_logic_1164 1381692176 PB ieee/STD_LOGIC_UNSIGNED 1381692179 \
+      PB ieee/std_logic_arith 1381692177
+AR work/vga/Behavioral 1449840853 \
+      FL E:/Computer_Organization/CPU_FINAL/vga.vhd EN work/vga 1449840852

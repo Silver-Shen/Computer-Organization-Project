@@ -1,0 +1,351 @@
+Release 14.7 - xst P.20131013 (nt64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+--> Parameter TMPDIR set to xst/projnav.tmp
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.34 secs
+ 
+--> Parameter xsthdpdir set to xst
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.36 secs
+ 
+--> Reading design: excited_cpu.prj
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Compilation
+  3) Design Hierarchy Analysis
+  4) HDL Analysis
+  5) HDL Synthesis
+     5.1) HDL Synthesis Report
+  6) Advanced HDL Synthesis
+     6.1) Advanced HDL Synthesis Report
+  7) Low Level Synthesis
+  8) Partition Report
+  9) Final Report
+	9.1) Device utilization summary
+	9.2) Partition Resource Summary
+	9.3) TIMING REPORT
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "excited_cpu.prj"
+Input Format                       : mixed
+Ignore Synthesis Constraint File   : NO
+
+---- Target Parameters
+Output File Name                   : "excited_cpu"
+Output Format                      : NGC
+Target Device                      : xc3s1200e-4-fg320
+
+---- Source Options
+Top Module Name                    : excited_cpu
+Automatic FSM Extraction           : YES
+FSM Encoding Algorithm             : Auto
+Safe Implementation                : No
+FSM Style                          : LUT
+RAM Extraction                     : Yes
+RAM Style                          : Auto
+ROM Extraction                     : Yes
+Mux Style                          : Auto
+Decoder Extraction                 : YES
+Priority Encoder Extraction        : Yes
+Shift Register Extraction          : YES
+Logical Shifter Extraction         : YES
+XOR Collapsing                     : YES
+ROM Style                          : Auto
+Mux Extraction                     : Yes
+Resource Sharing                   : YES
+Asynchronous To Synchronous        : NO
+Multiplier Style                   : Auto
+Automatic Register Balancing       : No
+
+---- Target Options
+Add IO Buffers                     : YES
+Global Maximum Fanout              : 500
+Add Generic Clock Buffer(BUFG)     : 24
+Register Duplication               : YES
+Slice Packing                      : YES
+Optimize Instantiated Primitives   : NO
+Use Clock Enable                   : Yes
+Use Synchronous Set                : Yes
+Use Synchronous Reset              : Yes
+Pack IO Registers into IOBs        : Auto
+Equivalent register Removal        : YES
+
+---- General Options
+Optimization Goal                  : Speed
+Optimization Effort                : 1
+Keep Hierarchy                     : No
+Netlist Hierarchy                  : As_Optimized
+RTL Output                         : Yes
+Global Optimization                : AllClockNets
+Read Cores                         : YES
+Write Timing Constraints           : NO
+Cross Clock Analysis               : NO
+Hierarchy Separator                : /
+Bus Delimiter                      : <>
+Case Specifier                     : Maintain
+Slice Utilization Ratio            : 100
+BRAM Utilization Ratio             : 100
+Verilog 2001                       : YES
+Auto BRAM Packing                  : NO
+Slice Utilization Ratio Delta      : 5
+
+=========================================================================
+
+
+=========================================================================
+*                          HDL Compilation                              *
+=========================================================================
+Compiling vhdl file "E:/Computer_Organization/CPU_FINAL/txmit.vhd" in Library work.
+Entity <txmit> compiled.
+Entity <txmit> (Architecture <v1>) compiled.
+Compiling vhdl file "E:/Computer_Organization/CPU_FINAL/rcvr.vhd" in Library work.
+Entity <rcvr> compiled.
+Entity <rcvr> (Architecture <v1>) compiled.
+Compiling vhdl file "E:/Computer_Organization/CPU_FINAL/clkcon.vhd" in Library work.
+Entity <clkcon> compiled.
+Entity <clkcon> (Architecture <v1>) compiled.
+Compiling vhdl file "E:/Computer_Organization/CPU_FINAL/ps2.vhd" in Library work.
+Entity <ps2> compiled.
+Entity <ps2> (Architecture <Behavioral>) compiled.
+Compiling vhdl file "E:/Computer_Organization/CPU_FINAL/vga.vhd" in Library work.
+Entity <vga> compiled.
+Entity <vga> (Architecture <Behavioral>) compiled.
+Compiling vhdl file "E:/Computer_Organization/CPU_FINAL/uart.vhd" in Library work.
+Entity <uart> compiled.
+Entity <uart> (Architecture <v1>) compiled.
+Compiling vhdl file "E:/Computer_Organization/CPU_FINAL/fd_clk.vhd" in Library work.
+Entity <fd_clk> compiled.
+Entity <fd_clk> (Architecture <Behavioral>) compiled.
+Compiling vhdl file "E:/Computer_Organization/CPU_FINAL/control.vhd" in Library work.
+Entity <control> compiled.
+Entity <control> (Architecture <Behavioral>) compiled.
+Compiling vhdl file "E:/Computer_Organization/CPU_FINAL/pc_reg.vhd" in Library work.
+Entity <pc_reg> compiled.
+Entity <pc_reg> (Architecture <Behavioral>) compiled.
+Compiling vhdl file "E:/Computer_Organization/CPU_FINAL/mmu.vhd" in Library work.
+Entity <mmu> compiled.
+Entity <mmu> (Architecture <Behavioral>) compiled.
+Compiling vhdl file "E:/Computer_Organization/CPU_FINAL/flash.vhd" in Library work.
+Entity <flash> compiled.
+Entity <flash> (Architecture <Behavioral>) compiled.
+Compiling vhdl file "E:/Computer_Organization/CPU_FINAL/if_id.vhd" in Library work.
+Entity <if_id> compiled.
+Entity <if_id> (Architecture <Behavioral>) compiled.
+Compiling vhdl file "E:/Computer_Organization/CPU_FINAL/id.vhd" in Library work.
+Entity <id> compiled.
+Entity <id> (Architecture <Behavioral>) compiled.
+Compiling vhdl file "E:/Computer_Organization/CPU_FINAL/g_regfile.vhd" in Library work.
+Entity <g_regfile> compiled.
+Entity <g_regfile> (Architecture <Behavioral>) compiled.
+Compiling vhdl file "E:/Computer_Organization/CPU_FINAL/s_regfile.vhd" in Library work.
+Entity <s_regfile> compiled.
+Entity <s_regfile> (Architecture <Behavioral>) compiled.
+Compiling vhdl file "E:/Computer_Organization/CPU_FINAL/id_ex.vhd" in Library work.
+Entity <id_ex> compiled.
+Entity <id_ex> (Architecture <Behavioral>) compiled.
+Compiling vhdl file "E:/Computer_Organization/CPU_FINAL/ex.vhd" in Library work.
+Entity <ex> compiled.
+Entity <ex> (Architecture <Behavioral>) compiled.
+Compiling vhdl file "E:/Computer_Organization/CPU_FINAL/ex_mem.vhd" in Library work.
+Entity <ex_mem> compiled.
+Entity <ex_mem> (Architecture <Behavioral>) compiled.
+Compiling vhdl file "E:/Computer_Organization/CPU_FINAL/mem.vhd" in Library work.
+Entity <mem> compiled.
+Entity <mem> (Architecture <Behavioral>) compiled.
+Compiling vhdl file "E:/Computer_Organization/CPU_FINAL/mem_wb.vhd" in Library work.
+Entity <mem_wb> compiled.
+Entity <mem_wb> (Architecture <Behavioral>) compiled.
+Compiling vhdl file "E:/Computer_Organization/CPU_FINAL/excited_cpu.vhd" in Library work.
+Entity <excited_cpu> compiled.
+Entity <excited_cpu> (Architecture <Behavioral>) compiled.
+
+=========================================================================
+*                     Design Hierarchy Analysis                         *
+=========================================================================
+Analyzing hierarchy for entity <excited_cpu> in library <work> (architecture <Behavioral>).
+
+Analyzing hierarchy for entity <ps2> in library <work> (architecture <Behavioral>).
+
+Analyzing hierarchy for entity <vga> in library <work> (architecture <Behavioral>).
+
+Analyzing hierarchy for entity <uart> in library <work> (architecture <v1>).
+
+Analyzing hierarchy for entity <fd_clk> in library <work> (architecture <Behavioral>).
+
+Analyzing hierarchy for entity <control> in library <work> (architecture <Behavioral>).
+
+Analyzing hierarchy for entity <pc_reg> in library <work> (architecture <Behavioral>).
+
+Analyzing hierarchy for entity <mmu> in library <work> (architecture <Behavioral>).
+
+Analyzing hierarchy for entity <flash> in library <work> (architecture <Behavioral>).
+
+Analyzing hierarchy for entity <if_id> in library <work> (architecture <Behavioral>).
+
+Analyzing hierarchy for entity <id> in library <work> (architecture <Behavioral>).
+
+Analyzing hierarchy for entity <g_regfile> in library <work> (architecture <Behavioral>).
+
+Analyzing hierarchy for entity <s_regfile> in library <work> (architecture <Behavioral>).
+
+Analyzing hierarchy for entity <id_ex> in library <work> (architecture <Behavioral>).
+
+Analyzing hierarchy for entity <ex> in library <work> (architecture <Behavioral>).
+
+Analyzing hierarchy for entity <ex_mem> in library <work> (architecture <Behavioral>).
+
+Analyzing hierarchy for entity <mem> in library <work> (architecture <Behavioral>).
+
+Analyzing hierarchy for entity <mem_wb> in library <work> (architecture <Behavioral>).
+
+Analyzing hierarchy for entity <txmit> in library <work> (architecture <v1>).
+
+Analyzing hierarchy for entity <rcvr> in library <work> (architecture <v1>).
+
+Analyzing hierarchy for entity <clkcon> in library <work> (architecture <v1>).
+
+
+=========================================================================
+*                            HDL Analysis                               *
+=========================================================================
+Analyzing Entity <excited_cpu> in library <work> (Architecture <Behavioral>).
+WARNING:Xst:819 - "E:/Computer_Organization/CPU_FINAL/excited_cpu.vhd" line 538: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+   <sel_mode>, <out_pc_signal>, <time_slice_signal>, <flush_count_signal>, <mode>, <pc_stall_s>
+Entity <excited_cpu> analyzed. Unit <excited_cpu> generated.
+
+Analyzing Entity <ps2> in library <work> (Architecture <Behavioral>).
+Entity <ps2> analyzed. Unit <ps2> generated.
+
+Analyzing Entity <vga> in library <work> (Architecture <Behavioral>).
+Entity <vga> analyzed. Unit <vga> generated.
+
+Analyzing Entity <uart> in library <work> (Architecture <v1>).
+Entity <uart> analyzed. Unit <uart> generated.
+
+Analyzing Entity <txmit> in library <work> (Architecture <v1>).
+WARNING:Xst:819 - "E:/Computer_Organization/CPU_FINAL/txmit.vhd" line 97: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+   <wrn>
+Entity <txmit> analyzed. Unit <txmit> generated.
+
+Analyzing Entity <rcvr> in library <work> (Architecture <v1>).
+Entity <rcvr> analyzed. Unit <rcvr> generated.
+
+Analyzing Entity <clkcon> in library <work> (Architecture <v1>).
+Entity <clkcon> analyzed. Unit <clkcon> generated.
+
+Analyzing Entity <fd_clk> in library <work> (Architecture <Behavioral>).
+WARNING:Xst:819 - "E:/Computer_Organization/CPU_FINAL/fd_clk.vhd" line 62: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+   <clk_mode>, <hclk>, <cnt>
+Entity <fd_clk> analyzed. Unit <fd_clk> generated.
+
+Analyzing Entity <control> in library <work> (Architecture <Behavioral>).
+WARNING:Xst:819 - "E:/Computer_Organization/CPU_FINAL/control.vhd" line 31: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+   <request_from_fd>
+Entity <control> analyzed. Unit <control> generated.
+
+Analyzing Entity <pc_reg> in library <work> (Architecture <Behavioral>).
+Entity <pc_reg> analyzed. Unit <pc_reg> generated.
+
+Analyzing Entity <mmu> in library <work> (Architecture <Behavioral>).
+WARNING:Xst:819 - "E:/Computer_Organization/CPU_FINAL/mmu.vhd" line 92: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+   <mode>, <data2_in>, <data_ready2>
+Entity <mmu> analyzed. Unit <mmu> generated.
+
+Analyzing Entity <flash> in library <work> (Architecture <Behavioral>).
+WARNING:Xst:819 - "E:/Computer_Organization/CPU_FINAL/flash.vhd" line 64: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+   <flash_addr_ram>
+INFO:Xst:2679 - Register <flash_byte> in unit <flash> has a constant value of 1 during circuit operation. The register is replaced by logic.
+INFO:Xst:2679 - Register <flash_vpen> in unit <flash> has a constant value of 1 during circuit operation. The register is replaced by logic.
+INFO:Xst:2679 - Register <flash_ce> in unit <flash> has a constant value of 0 during circuit operation. The register is replaced by logic.
+INFO:Xst:2679 - Register <flash_rp> in unit <flash> has a constant value of 1 during circuit operation. The register is replaced by logic.
+Entity <flash> analyzed. Unit <flash> generated.
+
+Analyzing Entity <if_id> in library <work> (Architecture <Behavioral>).
+Entity <if_id> analyzed. Unit <if_id> generated.
+
+Analyzing Entity <id> in library <work> (Architecture <Behavioral>).
+Entity <id> analyzed. Unit <id> generated.
+
+Analyzing Entity <g_regfile> in library <work> (Architecture <Behavioral>).
+WARNING:Xst:819 - "E:/Computer_Organization/CPU_FINAL/g_regfile.vhd" line 62: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+   <backup>
+WARNING:Xst:819 - "E:/Computer_Organization/CPU_FINAL/g_regfile.vhd" line 80: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+   <backup>
+Entity <g_regfile> analyzed. Unit <g_regfile> generated.
+
+Analyzing Entity <s_regfile> in library <work> (Architecture <Behavioral>).
+INFO:Xst:1561 - "E:/Computer_Organization/CPU_FINAL/s_regfile.vhd" line 109: Mux is complete : default of case is discarded
+INFO:Xst:1561 - "E:/Computer_Organization/CPU_FINAL/s_regfile.vhd" line 122: Mux is complete : default of case is discarded
+WARNING:Xst:819 - "E:/Computer_Organization/CPU_FINAL/s_regfile.vhd" line 88: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+   <back_T>, <back_IH>, <back_RA>, <back_SP>
+Entity <s_regfile> analyzed. Unit <s_regfile> generated.
+
+Analyzing Entity <id_ex> in library <work> (Architecture <Behavioral>).
+Entity <id_ex> analyzed. Unit <id_ex> generated.
+
+Analyzing Entity <ex> in library <work> (Architecture <Behavioral>).
+INFO:Xst:1561 - "E:/Computer_Organization/CPU_FINAL/ex.vhd" line 126: Mux is complete : default of case is discarded
+Entity <ex> analyzed. Unit <ex> generated.
+
+Analyzing Entity <ex_mem> in library <work> (Architecture <Behavioral>).
+Entity <ex_mem> analyzed. Unit <ex_mem> generated.
+
+Analyzing Entity <mem> in library <work> (Architecture <Behavioral>).
+Entity <mem> analyzed. Unit <mem> generated.
+
+Analyzing Entity <mem_wb> in library <work> (Architecture <Behavioral>).
+Entity <mem_wb> analyzed. Unit <mem_wb> generated.
+
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Performing bidirectional port resolution...
+
+Synthesizing Unit <ps2>.
+    Related source file is "E:/Computer_Organization/CPU_FINAL/ps2.vhd".
+WARNING:Xst:646 - Signal <wholedata<10:9>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <wholedata<0>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+WARNING:Xst:646 - Signal <tmp_clk> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+    Register <tmp_data> equivalent to <out_data> has been removed
+    Found finite state machine <FSM_0> for signal <state>.
+    -----------------------------------------------------------------------
+    | States             | 3                                              |
+    | Transitions        | 5                                              |
+    | Inputs             | 2                                              |
+    | Outputs            | 3                                              |
+    | Clock              | clk                       (rising_edge)        |
+    | Power Up State     | s0                                             |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Found 1-bit register for signal <data_ready>.
+    Found 8-bit register for signal <out_data>.
+    Found 1-bit register for signal <clk1>.
+    Found 1-bit register for signal <clk2>.
+    Found 4-bit up counter for signal <counter>.
+    Found 1-bit register for signal <data>.
+    Found 8-bit comparator equal for signal <state$cmp_eq0001> created at line 94.
+    Found 8-bit register for signal <used_data>.
+    Found 8-bit register for signal <wholedata<8:1>>.
+    Summary:
+	inferred   1 Finite State Machine(s).
+	inferred   1 Counter(s).
+	inferred  28 D-type flip-flop(s).
+	inferred   1 Comparator(s).
+Unit <ps2> synthesized.
+
+
+Synthesizing Unit <vga>.
+    Related source file is "E:/Computer_Organization/CPU_FINAL/vga.vhd".
+    Found 40x128-bit ROM for signal <color$rom0000> created at line 218.
